@@ -1,0 +1,9 @@
+title: "Learn to the Love the Command Line"
+remote_theme: "ubc-library-rc/rc-workshop-template"
+github_repo_url: "https://github.com/phette23/c4l21-learn-to-love-the-command-line"
+
+footer_content: "LEARN TO LOVE THE COMMAND LINE | <a href='https://phette23.github.io/c4l21-learn-to-love-the-command-line/'>View in GitHub</a> | made with love by Eric Phetteplace (<a href='https://phette.net'>@phette23</a>)"
+
+plugins:
+  - jekyll-remote-theme
+  - jekyll-seo-tag
