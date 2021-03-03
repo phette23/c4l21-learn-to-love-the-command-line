@@ -11,7 +11,7 @@ This workshop is meant to introduce you to the fundamentals of command line inte
 
 ## Workshop Objectives
 
-First, we will review some fundamentals of the command line like the syntax of commands, file system operations, and navigating around. Somewhere in here we will learn what exactly the terms "shell" and "terminal" and "command line interface" mean.
+First, we will review some fundamentals of the command line like the syntax of commands, file system operations, and navigating around.
 
 Next, we'll move on to more advanced topics that are relevant in shell scripting, like loops and variables. We will see demonstrations of more sophisticated tools that are commonly used.
 

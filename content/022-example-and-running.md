@@ -42,6 +42,8 @@ This does several things:
 1. `open` the Google Spreadsheet in my default web browser
 1. `trash` the downloaded file (`trash` is a node.js utility)
 
+[ @TODO add a second example ]
+
 ## More reasons to ❤️
 
 **"Text is the universal interface"**: this point may seem abstract until we see more examples, but on the command line data and programs work in harmony. The command line is understandable, composable, and portable. Because everything is text it is easy to inspect processes, feed data streams through a series of transformations and to add, modify, or remove steps from the series.

@@ -28,7 +28,7 @@ These are tools that may be particularly relevant for people in the <abbr title=
 The number one most frustrating thing about the command line, for me, has always been installing and configuring software. Getting things running, particularly in a Windows environment but often on Mac too, can be a struggle. My advice is to 1) search the web for solutions because you are not the first with your problem, 2) ask for help on [the Code4Lib Slack](https://code4lib.org/slack), 3) check that executables are on your `$PATH`, and 4) do not let  frustration dissuade you from trying.
 {: .warn}
 
-### Fundamentals
+### Improved Fundamentals
 
 - `ack` - really nice regular expression search utility
 - `curl` - make HTTP requests, do stuff with URLs
