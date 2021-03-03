@@ -19,6 +19,7 @@ A fair amount of these materials will repeat what we've covered in this workshop
 - [Intro to CLIs](https://docs.google.com/presentation/d/14oisMTEG-O-_DnHSfBRCLsuRq041VnJt9qFOAiVhdpI/edit#slide=id.p) by Coral Sheldon-Hess. The [ccac-data-analytics/learn-cli](https://github.com/ccac-data-analytics/learn-cli) repo has even more material.
 - [Scripting (Bash)](https://training.ashleyblewer.com/presentations/bash-scripting.html#2) by Ashley Blewer
 - [Command Line Interface](https://training.ashleyblewer.com/presentations/cli.html#2) by Ashley Blewer
+- [Using The Terminal](https://help.ubuntu.com/community/UsingTheTerminal) from the Ubuntu documentation
 
 ## GLAM Software
 
@@ -98,10 +99,10 @@ wget https://example.com/0$(seq -w 1 100).jpeg
 Each year, we change the main home page image of our website. I provide sample screenshots of what the website will look like with several different image options. To do this, I need to both take a bunch of screenshots and refresh a preview of the website, which sometimes doesn't work because of caching. To automatically move the screenshots I'm taking to a "HomePageImages" directory while repeatedly clearing the cache, I run two never-ending loops:
 
 ```sh
-> # on my laptop in my Downloads folder
-> while true; do mv "Screen Shot *" ~/Pictures/HomePageImages/; sleep 10; done
-> # on the web server running our Django site
-> while true; python manage.py clear_cache; sleep 10; done
+$ # on my laptop in my Downloads folder
+$ while true; do mv "Screen Shot *" ~/Pictures/HomePageImages/; sleep 10; done
+$ # on the web server running our Django site
+$ while true; python manage.py clear_cache; sleep 10; done
 ```
 
 This `while true` phrase is a bit of a hack; `while` loops run until their condition becomes false, but the `true` shell builtin is always going to be, well, true. It's a simple way to generate an infinite loop. I can manually cancel the loops with the Ctrl+C keyboard interrupt when I'm done.
@@ -111,14 +112,14 @@ This `while true` phrase is a bit of a hack; `while` loops run until their condi
 Moodle has its own compressed backup format ".mbz". These files contain _all_ the media in a course and as such can grow quite large, surpassing the file size limits of the web interface not to mention taking a long time to process. Using `moosh` ("Moodle shell") and common file transfer software, it's easy to restore many large courses at once.
 
 ```sh
-> # transfer to server
-> rsync -avzhP *.mbz moodle.school.edu:/path/to/moodle
-> # when transfers complete, log into server & run moosh
-> ssh moodle.school.edu
-> cd /path/to/moodle
-> # restore courses into course category id=1, run as the web server user or use
-> # the moosh "-n" flag if you're running as root
-> sudo -u www-data moosh course-restore *.mbz 1
-> # delete backup files
-> rm *.mbz
+$ # transfer to server
+$ rsync -avzhP *.mbz moodle.school.edu:/path/to/moodle
+$ # when transfers complete, log into server & run moosh
+$ ssh moodle.school.edu
+$ cd /path/to/moodle
+$ # restore courses into course category id=1, run as the web server user or use
+$ # the moosh "-n" flag if you're running as root
+$ sudo -u www-data moosh course-restore *.mbz 1
+$ # delete backup files
+$ rm *.mbz
 ```

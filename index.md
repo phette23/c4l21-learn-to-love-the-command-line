@@ -35,9 +35,9 @@ Finally, we will conclude with some examples of potential projects made easier b
 
 Our topics today come in many variations depending on operating system and software differences. To follow along with examples and do the exercises, **all attendees need access to Bash (the most common shell) in a UNIX-like environment**. What does this mean for you?
 
-- If you are on **Mac OS X** or **Linux**, you are all set
-- If you are on **Windows**, please download & install [**Git Bash**](https://gitforwindows.org/)
-- Chromebooks, tablets, and smartphones generally do not give access to the command line and it would be too challenging to create instructions that work for them
+- If you are on **Mac OS X** or **Linux**, you should be set. If you want to double-check, follow the instructions under [Running the command line](example-and-running/#running-the-command-line).
+- If you are on **Windows**, please download & install [**Git Bash**](https://gitforwindows.org/). There are _many_ installation options; if you go with the defaults, you should be fine.
+- Chromebooks, tablets, and smartphones generally do not give access to the command line and it would be too challenging to create instructions that work for them.
 
-Thus begins the fair amount of "...except for Windows" that will occur during this workshop. Windows actually has its own syntactically-unique shells—Powershell is pretty good, in my estimation—but the OS's design puts it at odds with the UNIX ideas that undergird Mac and Linux, making universality unachievable. Hopefully, we can make this workshop useful regardless of your OS but know that Windows' differences will explain a fair amount of problems and errors.
+Thus begins the fair amount of "...except for Windows" that may occur during this workshop. Windows actually has its own syntactically-unique shells—Powershell is pretty good, in my estimation—but the OS's design puts it at odds with the UNIX ideas that undergird Mac and Linux, making universality unachievable. Hopefully, we can make this workshop useful regardless of your OS but know that Windows' differences may contribute to a decent amount of problems and errors.
 {: .warn}

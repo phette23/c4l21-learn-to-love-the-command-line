@@ -13,7 +13,7 @@ Before we get ahead of ourselves, I want to convince you that the command line i
 
 _Why_ would you use a textual interface to a computer? Isn't it much less intuitive than the graphical user interface, a massive innovation that is essential to the ubiquity of computers? I've culled a few examples from my work of operations that would be tedious, if not impossible, without the command line.
 
-Before we look at too many command examples, let's talk about how we represent them. The greater than `>` symbol indicates _the beginning of the command prompt_. When practicing a command, do not type that part. Secondly, we will often have placeholder values in our examples. These will be represented like `$PLACEHOLDER` which is what a variable looks like in Bash.
+Before we look at too many command examples, let's talk about how we represent them. The dollar sign `$` symbol indicates _the beginning of the command prompt_. When practicing a command, do not type that part. Secondly, we will often have placeholder values in our examples. These will be represented like `$PLACEHOLDER` which is what a variable looks like in Bash.
 {: .note}
 
 ### Reformat CSV & open Google Spreadsheet to append contents
@@ -24,14 +24,14 @@ I download these CSVs manually but can then perform several operation in one
 command I've written into a short script:
 
 ```sh
-> csvformat -T $CSV_FILE | sed -e '1,2d' | \
+$ csvformat -T $CSV_FILE | sed -e '1,2d' | \
 pbcopy && open $SPREADSHEET_URL && trash $CSV_FILE
 ```
 
 I've combined this chain of commands into a script so I don't have to remember them all:
 
 ```sh
-> colocopy $CSV_FILE
+$ colocopy $CSV_FILE
 ```
 
 This does several things:
@@ -60,16 +60,19 @@ Let's all start a terminal and get ready for the information and exercises that 
 
 **On a Mac**: run Terminal.app which lives under Applications > Utilities. You can easily find Terminal by searching for it with Spotlight (click magnifying icon in your menu bar or use the keyboard shortcut <kbd>⌘ + Spacebar</kbd>).
 
-**On Linux**: most distributions will come with a builtin app, usually named "Terminal" or simmilar. On Ubuntu you can use Dash to search for "terminal" or the keyboard shortcut <kbd>Ctrl + Alt + T</kbd>.
+Mac OS X recently [changed it's default shell](https://support.apple.com/en-us/HT208050) from `bash` to `zsh`. While that's a fine choice, to simplify today's workshop I recommend we all use bash. If you are on Catalina or later, or for any reason see "zsh" as the response to the `echo $0` command below, switch to bash simply by running it as a command: type `bash` followed <kbd>Return</kbd>.
+{: .warn }
 
-**On Windows**: open the Git Bash program we downloaded earlier.
+**On Linux**: most distributions come with a builtin app, usually named "Terminal" or simmilar. On Ubuntu you can use Dash to search for "terminal" or the keyboard shortcut <kbd>Ctrl + Alt + T</kbd>. Ubuntu has comprehensive documentation on [how to start a terminal for various distributions](https://help.ubuntu.com/community/UsingTheTerminal#Starting_a_terminal).
+
+**On Windows**: run the [Git Bash](https://gitforwindows.org) program we downloaded earlier.
 
 Are we ready? Let's run this command.
 
 Input
 {: .label .label-green }
 ```sh
-> echo $0
+$ echo $0
 ```
 
 When you have typed out "<kbd>e-c-h-o-space-dollar-zero</kbd>" press <kbd>Enter</kbd> or <kbd>Return</kbd> to execute the command. You should see "bash" as a response, the name of the shell we're using.
