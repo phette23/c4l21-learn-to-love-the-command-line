@@ -1,0 +1,24 @@
+/* overrides */
+
+.page-content ul {
+    list-style: inherit;
+}
+
+.page-content ul > li::before {
+    display: none;
+}
+
+details summary::before {
+    content: '⬇️';
+    padding-right: 1em;
+}
+
+details[open] summary::before {
+    content: '⬆️';
+}
+
+/* my utilities */
+
+.page-content ul.lower-alpha-list {
+    list-style: lower-alpha;
+}
