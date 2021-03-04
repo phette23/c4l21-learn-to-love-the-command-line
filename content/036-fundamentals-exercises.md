@@ -52,10 +52,6 @@ $ rm -ir *</code></pre>
 
 No typing commands here, but a few questions for thought.
 
-**Why do `mv` and `cp` accept arguments in the order that they do, performing a slightly different sort of operation if a folder is the final argument?**
-
-Consider the difference between `mv source.file destination.file` versus `mv source1.file source2.file Destination.folder`.
-
 **Which of the terms below best applies to `bash`?**
 
 {: .lower-alpha-list }
@@ -70,6 +66,10 @@ Consider the difference between `mv source.file destination.file` versus `mv sou
 <b>shell</b> is the most suitable term. Though bash is technically a command itself—try running <code>bash</code> in your terminal? What happens? Are you in <i>Inception</i>? If you're having fun with this, trying running `echo $SHLVL`, then `exit`, and finally `ECHO $SHLVL` again. What do you think happened?
 </details>
 <br>
+
+**Why do `mv` and `cp` accept arguments in the order that they do, performing a slightly different sort of operation if a folder is the final argument?**
+
+Consider the difference between `mv source.file destination.file` versus `mv source1.file source2.file Destination.folder`.
 
 **Can you think of one task you've done recently, whether it's a one-time thing or a recurring one, that might have been made easier by using the command line?**
 

@@ -227,9 +227,25 @@ The way this works is the shell looks for potential matches and expands the `*` 
 | .. | The parent folder of your current location
 | * | wildcard
 
-We will see a few more special characters later, like `$`, `&`, and `|`.
+We will see a few more special characters later, like `$`, `&`, and `|`. But first let's return to `ls` for a minute to look at a new flag, `-a` for "all".
 
-Let's return to `ls` for a minute to look at a new flag, `-a` for "all". What does `ls -Gal` show us in our test directories? We can only understand this output now that we know the special meanings of `.` and `..`. The "all" flag also shows us _hidden files_ (filenames that begin with a period, ".gitignore" and ".DS_Store" are two common ones). What about `ls -Gal Subfolder`? `ls` isn't restricted to the current folders' contents, we can ask it to list another folder without even moving to that location.
+Input
+{: .label .label-green}
+```sh
+$ ls -Gal
+```
+
+Output
+{: .label .label-yellow}
+```sh
+drwxr-xr-x  12 ephetteplace  staff   384 Mar  4 15:12 .
+drwxr-xr-x  25 ephetteplace  staff   800 Mar  1 15:07 ..
+drwxr-xr-x  12 ephetteplace  staff   384 Mar  4 15:30 Subfolder
+-rw-r--r--   1 ephetteplace  staff    36 Mar  1 16:09 another.txt
+-rw-r--r--   1 ephetteplace  staff    36 Mar  1 16:09 renamed.txt
+```
+
+We can understand more now that we know the special meanings of `.` and `..`. The "all" flag also shows us _hidden files_ (filenames that begin with a period, ".gitignore" and ".DS_Store" are two common ones). What about `ls -Gal Subfolder`? `ls` isn't restricted to the current folders' contents, we can list another folder without even changing location.
 
 One final file system command: `cp`. Any guesses are to what it does? Try to find its documentation if you cannot guess.
 
@@ -240,40 +256,46 @@ Input
 ```sh
 $ touch original
 $ cp -v original duplicate
-$ mkdir -p ParentSubfolder/ChildSubfolder
-$ cp -v original duplicate ParentSubfolder/ChildSubfolder
-$ cp -r ParentSubfolder/ChildSubfolder ParentSubfolder
+$ mkdir -p ParentSubfolder/Child
+$ cp -v original duplicate ParentSubfolder/Child
+$ cp -rv ParentSubfolder CopyParentSubfolder
 ```
 
 Output
 {: .label .label-yellow}
 ```sh
-
+original -> duplicate
+original -> ParentSubfolder/Child/original
+duplicate -> ParentSubfolder/Child/duplicate
+ParentSubfolder -> CopyParentSubfolder
+ParentSubfolder/Child -> CopyParentSubfolder/Child
+ParentSubfolder/Child/original -> CopyParentSubfolder/Child/original
+ParentSubfolder/Child/duplicate -> CopyParentSubfolder/Child/duplicate
 ```
 
-Notice two things: 1) we learned a new `mkdir` flag, `-p`, which scaffolds out an entire folder hierarchy all at once, 2) we were passing argument lists with very different compositions to `cp`—two files, two files and a folder, two folders—yet they all worked!
+Notice three things: 1) we learned a new `mkdir` flag, `-p`, which scaffolds out an entire folder hierarchy all at once, 2) the `-r` recursive flag duplicated the entire tree of folders & files, and 3) `cp` accepted argument lists with very different compositions—two files, two files and a folder, two folders—yet they all worked!
 
-While we need to learn many different commands to master the CLI, there are certain predictable patterns to how commands are structured we can expect. Commands almost ways have the same kinds of flags (recursion, verbose, help) and they are structured to work well with globbing, variable numbers of arguments.
+While we need to learn many different commands to master the CLI, there are predictable patterns to how commands are structured. Commands almost always have the same kinds of flags (recursion, verbose, help) and they are structured to work well with globbing, with variable numbers of arguments.
 
 ### Niceties: quicker typing & cursor movement
 
-You have probably already noticed one of the more annoying things about the command line by now: typos. The command line, like every programming language, is extremely pedantic. It will simply fail if you mistype a command or one of its arguments. You may have spent some time deleting text to rewrite it. Here are a few tips that help us write accurate commands with less effort.
+We have probably already noticed one of the more annoying things about the command line by now: typos. The command line, like every programming language, is extremely pedantic. Commands fail if you mistype a flag or argument. We may have spent some time deleting text to rewrite it. Here are a few tips that help us write accurate commands with less effort.
 
-First of all, all modern shells come with a tab-completion feature that tries to intelligently fill in the end of a term based on the text you've already entered. Remember our lengthy "Code4Lib-CLI-Workshop" folder name? If we are in the _parent_ folder that contains it, we can type something like "cd Co<kbd>&lt;tab&gt;</kbd>" and the folder name appears on our prompt. You always have to type enough to uniquely identify the object you are referencing.
+First of all, modern shells come with a **tab-completion** feature that intelligently fills in the end of a term based on the text we've already entered. Remember our lengthy "Code4Lib-CLI-Workshop" folder name? If we are in the _parent_ folder that contains it, we can type something like "cd Co<kbd>&lt;tab&gt;</kbd>" and the complete folder name appears on our prompt.
 
-Say we have two files "another.txt" and "another_one.txt" in our folder. If we type "rm a<kbd>&lt;tab&gt;</kbd>" then the command cannot complete because it cannot know which file we're trying to remove. But it _does_ fill out as much text as it can—the phrase "rm another" appears because, up until that point, our two filenames are the same.
+We always have to type enough to uniquely identify the object you are referencing. Say we have two files "another.txt" and "another_one.txt" in our folder. If we type "rm a<kbd>&lt;tab&gt;</kbd>" then the tab cannot complete because it cannot know which file we're trying to remove. But it _does_ fill out as much text as it can—the phrase "rm another" appears because, up until that point, our two filenames are the same.
 
-Another handy trick: the arrow keys ⬆️ and ⬇️ move up and down through your command history. If you mistyped your last command, it's often useful to up-arrow to it, edit, and run again.
+Another handy trick: the arrow keys ⬆️ &nbsp;and ⬇️ &nbsp;move up and down through your command history. If we mistyped our last command, it's often time-saving to up-arrow, edit, and run again.
 
-But what if you mistyped _the very beginning_ of your command, like writing `tuch a-very-very-long-filename.txt`? Up-arrow doesn't save a ton of time because you have to delete everything to fix the `touch` typo. Never fear! These handy keyboard shortcuts can help you jump around the line to edit specific parts:
+But what if we mistyped _the very beginning_ of our command, like writing `tuch a-very-very-long-filename.txt`? Up-arrow doesn't save much time because we have to delete everything to fix the `touch` typo. Never fear! These handy keyboard shortcuts can help us jump around the line to edit specific parts:
 
 | Shortcut | Action
 | --- | ---
 | Ctrl + A | Move the cursor to the start of the prompt
 | Ctrl + E | Move the cursor to the end of the prompt
 | Ctrl + K | Delete from the cursor to the end of the line
-| Ctrl + W | Delete the word closest to the cursor
+| Ctrl + W | Delete the word behind the cursor
 | Ctrl + L | Clear the contents of the terminal window
-| Ctrl + C | Cancel the currently-running command (great way to break an infinite loop)
+| Ctrl + C | Cancel the currently-running command (one way to break an infinite loop)
 
-Those last two are simply useful to know and not related to cursor navigation. These aren't easy to remember but they're so useful I recommend trying to use them until they become second nature.
+Those last two are simply useful to know and not related to cursor navigation. These aren't easy to remember but they're so useful that I recommend trying to use them until they become second nature.
