@@ -1,6 +1,6 @@
 ---
 layout: default
-nav_order: 3
+nav_order: 9
 title: Further Learning
 permalink: /further-learning/
 ---

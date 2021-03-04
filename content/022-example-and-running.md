@@ -1,7 +1,7 @@
 ---
 layout: default
 nav_order: 3
-title: An Example and Running a Shell
+title: Examples & Running a Shell
 permalink: /example-and-running/
 ---
 

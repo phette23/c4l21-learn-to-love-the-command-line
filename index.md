@@ -25,11 +25,11 @@ Finally, we will conclude with some examples of potential projects made easier b
 | 10 | 2. [Examples & running a terminal](example-and-running)
 | 40 | 3. [Fundamentals of the command line](fundamentals)
 | 15 | 4. [Breakout groups I - exercises & practice](fundamentals/exercises)
-| 10 | 5. Regroup & then break
-| 40 | 6. More advanced topics
-| 15 | 7. Breakout groups II - exercises & practice
-| 10 | 8. Regroup & then break
-| 20 | 9. [Further learning, tools, & projects](further-learning)
+| 10 | Regroup & then break
+| 40 | 5. [Intermediate topics](intermediate)
+| 15 | 6. [Breakout groups II - exercises & practice](intermediate/exercises)
+| 10 | Regroup & then break
+| 20 | 7. [Further learning, tools, & projects](further-learning)
 
 ### Prerequisites
 
