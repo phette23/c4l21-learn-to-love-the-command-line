@@ -123,3 +123,19 @@ $ sudo -u www-data moosh course-restore *.mbz 1
 $ # delete backup files
 $ rm *.mbz
 ```
+
+### Run the openEQUELLA launcher with your password on your clipboard
+
+The openEQUELLA repository software comes with a launcher script which is somewhat awkward to use, it opens a useless terminal window and then a login prompt that doesn't remember any credentials. I wrote a bash script to wrap running the launcher but also copy my password onto my clipboard:
+
+```sh
+#!/usr/bin/env bash
+jq -r '.password' ~/.equellarc | tr -d '\n' | pbcopy
+# Path to OpenEQUELLA Admin Console Launcher script, download from
+# https://github.com/openequella/openEQUELLA-admin-console-package/releases
+/Applications/admin-console/Mac-launcher.sh 2&>/dev/null &
+```
+
+The `2&>/dev/null` phrase silences all output of the command while the final `&` runs it in the background. I put this script on my path so I can simply run it in my open terminal window but then continue working.
+
+I have an ".equellarc" file with credentials in my user's home folder because I use my own CLI tool `[equella-cli](https://www.npmjs.com/package/equella-cli)` to perform many operations on our IR.
