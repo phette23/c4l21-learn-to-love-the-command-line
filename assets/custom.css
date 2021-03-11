@@ -22,3 +22,7 @@ details[open] summary::before {
 .page-content ul.lower-alpha-list {
     list-style: lower-alpha;
 }
+
+abbr[title] {
+    cursor: help;
+}
