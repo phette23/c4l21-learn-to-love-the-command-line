@@ -138,7 +138,7 @@ testname
 
 The vertical bar `|` performs this piping of output to input. Notice how our `uniq` has no arguments that follow it; since piping data between commands is so powerful, most commands are designed to work with it. You might see the terms "standard output", abbreviated "stdout", and "standard input" or "stdin" mentioned in documentation for commands. Those terms refer to these streams of data, coming from and going into a command. So while our `uniq` command did not have a text file to for input it checked stdin and found the names text there.
 
-There is no non-standard input or output or anything. Why? I don't know ¯\_(ツ)_/¯
+There is no non-standard input or output or anything. So why do we use "standard output" and not simply "output"? I don't know ¯\\_(ツ)_/¯
 {: .note }
 
 To demonstrate pipes, let's look at the mirrored commands `head` and `tail` which both take a numeric `-n` argument and return either the first or last N lines:
