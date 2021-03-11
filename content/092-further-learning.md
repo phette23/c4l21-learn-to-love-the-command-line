@@ -20,6 +20,8 @@ A fair amount of these materials will repeat what we've covered in this workshop
 - [Scripting (Bash)](https://training.ashleyblewer.com/presentations/bash-scripting.html#2) by Ashley Blewer
 - [Command Line Interface](https://training.ashleyblewer.com/presentations/cli.html#2) by Ashley Blewer
 - [Using The Terminal](https://help.ubuntu.com/community/UsingTheTerminal) from the Ubuntu documentation
+- [Bash Guide for Beginners](https://tldp.org/LDP/Bash-Beginners-Guide/html/index.html) covers virtually all Bash syntax but, most usefully, gives examples for everything and not only definitions
+- [Stack Overflow](https://stackoverflow.com/questions/tagged/bash) and the [Unix & Linux Stack Exchange](https://unix.stackexchange.com/) are great places for questions, as they are for many computing topics
 
 ## GLAM Software
 
@@ -123,6 +125,23 @@ $ sudo -u www-data moosh course-restore *.mbz 1
 $ # delete backup files
 $ rm *.mbz
 ```
+
+### Backup large Archive-IT WARC files
+
+We wanted to create a backup copy of Archive-It's WARC files for a website. These files are numerous and all around a gigabyte in size, so manually downloading and transferring each of them would be tedious. [Their documentation](https://support.archive-it.org/hc/en-us/articles/360015225051-Find-and-download-your-WARC-files-with-WASAPI) points out how you can use the command line to retrieve a list of files and then bulk download them. This roughly outlines how you might download files one-by-one, transfer them to a remote server, and remove them so they don't overwhelm your hard drive:
+
+```sh
+$ USER=username; PASS=password; COLLECTION=123456; REMOTE_SERVER=remote.storage.edu
+$ curl -u $USER:$PASS "https://warcs.archive-it.org/wasapi/v1/webdata?collection=$COLLECTION" > data.json
+$ jq -r .files[].locations[0] data.json > urls.txt
+$ for URL in $(cat urls.txt); do \
+wget --http-user=$USER --http-password=$PASS --accept txt,gz $URL; \
+scp *.gz $REMOTE_SERVER; \
+rm *.gz; \
+done
+```
+
+If you can `ssh` into your remote server, it would be even more effective to simply run this command on that server and save yourself the `scp` transfer step.
 
 ### Run the openEQUELLA launcher with your password on your clipboard
 
