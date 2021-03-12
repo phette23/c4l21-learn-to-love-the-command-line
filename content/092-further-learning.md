@@ -128,7 +128,7 @@ $ rm *.mbz
 
 ### Backup large Archive-IT WARC files
 
-We wanted to create a backup copy of Archive-It's WARC files for a website. These files are numerous and all around a gigabyte in size, so manually downloading and transferring each of them would be tedious. [Their documentation](https://support.archive-it.org/hc/en-us/articles/360015225051-Find-and-download-your-WARC-files-with-WASAPI) points out how you can use the command line to retrieve a list of files and then bulk download them. This roughly outlines how you might download files one-by-one, transfer them to a remote server, and remove them so they don't overwhelm your hard drive:
+My organization wants to create a backup copy of Archive-It's WARC files for a website. These files are numerous and up to a gigabyte in size; manually downloading and transferring each of them is tedious. [Their documentation](https://support.archive-it.org/hc/en-us/articles/360015225051-Find-and-download-your-WARC-files-with-WASAPI) shows how we can use the command line to retrieve a list of files for bulk download. The script below roughly outlines how we might create a list of files, download them one-by-one, remove a long temporary query string from the files' names, transfer them to a remote server, and finally remove them so they don't overwhelm our hard drive:
 
 ```sh
 $ USER=username; PASS=password; COLLECTION=123456; REMOTE_SERVER=remote.storage.edu
@@ -136,8 +136,9 @@ $ curl -u $USER:$PASS "https://warcs.archive-it.org/wasapi/v1/webdata?collection
 $ jq -r .files[].locations[0] data.json > urls.txt
 $ for URL in $(cat urls.txt); do \
 wget --http-user=$USER --http-password=$PASS --accept txt,gz $URL; \
+rename -v 's/\?.*tmp//' *.tmp; \
 scp *.gz $REMOTE_SERVER; \
-rm *.gz; \
+rm -v *.gz; \
 done
 ```
 
