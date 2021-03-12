@@ -16,13 +16,13 @@ Eric Phetteplace is Systems Librarian at California College of the Arts. He mana
 
 ## Code of Conduct
 
-We will respect the [Code4Lib Code of Conduct](https://github.com/code4lib/code-of-conduct/blob/main/code_of_conduct.md) in this workshop.
+We will abide by the [Code4Lib Code of Conduct](https://github.com/code4lib/code-of-conduct/blob/main/code_of_conduct.md) in this workshop.
 
 > Code4Lib seeks to provide a welcoming, professionally engaging, fun, and safe conference experience and ongoing community for everyone. We do not tolerate harassment in any form. Discriminatory language and imagery (including sexual) is not appropriate for any event venue, including talks, or any community channel such as the chatroom or mailing list.
 
 > Harassment is understood as any behavior that threatens or demeans another person or group, or produces an unsafe environment. It includes offensive verbal comments or non-verbal expressions related to gender, gender identity, gender expression, sexual orientation, disability, physical appearance, body size, race, age, religious or political beliefs; sexual or discriminatory images in public spaces (including online); deliberate intimidation, stalking, following, harassing photography or recording; sustained disruption of talks or other events, inappropriate physical contact, and unwelcome sexual attention.
 
-You may report Code of Conduct violations by emailing c4lcommunitysupport@googlegroups.com or pinging `c4lcss` on Slack.
+You may report Code of Conduct violations by emailing [c4lcommunitysupport@googlegroups.com](mailto:c4lcommunitysupport@googlegroups.com) or pinging `c4lcss` on Slack.
 
 ## What about _you_?
 
