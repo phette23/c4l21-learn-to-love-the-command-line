@@ -20,7 +20,7 @@ The Zoom toolbar provides several ways to be part of the conversation:
 
 Open the _Reactions_ menu and click an icon to communicate with the instructors.
 
-![Reactions menu](/content/zoom-figures/reactions.png)
+![Reactions menu](/c4l21-learn-to-love-the-command-line/content/zoom-figures/reactions.png)
 
 Use this to **answer yes/no** questions or to **raise your hand** when instructors invite you to ask a question, comment, or share your screen.
 
@@ -38,8 +38,8 @@ In some cases instructors may invite you to share your screen. Raise your hand t
 
 The _Whiteboard_ is a collaborative space that everyone can annotate with drawings and text. When the whiteboard is shared click _View options_ and select _Annotate_.
 
-![Menu with Annotate option](/content/zoom-figures/open_annotate_toolbar.png)
+![Menu with Annotate option](/c4l21-learn-to-love-the-command-line/content/zoom-figures/open_annotate_toolbar.png)
 
 This opens the annotation toolbar. Drawings and text you add to the screen will be visible to everyone in the session or breakout room.
 
-![The annotation toolbar](/content/zoom-figures/annotate_toolbar.png)
+![The annotation toolbar](/c4l21-learn-to-love-the-command-line/content/zoom-figures/annotate_toolbar.png)
