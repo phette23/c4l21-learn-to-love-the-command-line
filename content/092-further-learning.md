@@ -32,17 +32,18 @@ The number one most frustrating thing about the command line, for me, has always
 
 ### Improved Fundamentals
 
-- `ack` - really nice regular expression search utility
+- `ack` - great regular expression search utility
 - `curl` - make HTTP requests, do stuff with URLs
 - `exa` - nicer version of `ls`
 - `fish` - nice shell that's more user friendly than bash
 - `git` - incredibly popular version control software
+- `homebrew` - makes installing & updating CLI software easy on a Mac
 - `tldr` - nicer help documentation for common tools
 - `todo-txt` - todo list app for the CLI
-- `vim` - popular command line text editor
+- `vim` - popular text editor
 - `wget` - download web content
 - `z` - quicker navigation, remembers commonly visited places
-- `zsh` - another nice shell, a bash alternative that is more popular than fish
+- `zsh` - another nice shell, bash alternative that is more popular than fish
 
 ### Metadata
 
@@ -108,6 +109,18 @@ $ while true; python manage.py clear_cache; sleep 10; done
 ```
 
 This `while true` phrase is a bit of a hack; `while` loops run until their condition becomes false, but the `true` shell builtin is always going to be, well, true. It's a simple way to generate an infinite loop. I can manually cancel the loops with the Ctrl+C keyboard interrupt when I'm done.
+
+## `csvkit` is an actual miracle
+
+When I went to email the attendees of this workshop, I immediately encountered an annoyance: the registration list was a plain HTML table with no easy means of copying just the email address column. Fittingly, the command-line offers a convenient solution in the form of Python's brilliant `csvkit`, which is a suite of utilities. You have to first `pip install csvkit` first for these commands to work. I copy-pasted the HTML table, which inserts tabs between columns, then ran this single command:
+
+```sh
+$ csvcut -t -c 3 attendees.tsv | pbcopy
+```
+
+`csvcut` "cuts" the column specified by the `-c` parameter, which can be numeric (indexed from 1) or the name used in a header row. The `-t` flag specifies that the input file uses tabs as separators. `pbcopy` is a Mac utility that adds text to the OS clipboard.
+
+...more csvkit examples e.g from libraries_course_list repo
 
 ### Upload and restore multiple Moodle course backups
 
