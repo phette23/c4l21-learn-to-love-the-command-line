@@ -6,14 +6,14 @@ permalink: /intermediate/
 has_children: true
 ---
 
-# Intermediate command line topics
-
 @TODO
 
 - text tools that work with output redirection: `sed`
-- other assorted tools: `grep`, `du`, `curl`, `less`?
+- other assorted tools: `grep`, `less`?
 
 ---
+
+# Intermediate command line topics
 
 At the start, I mentioned that "text is the universal interface", but we've not truly seen how the command line handles text. First, let's download this example files of names and then do a bunch of operations on it:
 
@@ -282,16 +282,57 @@ Secondly, an analogous problem occurs when appending output to the input file: i
 
 There are some commands that have flags which let us edit files in place but know that this is not typically the way things work in the shell, but has to be specially supported.
 
-## Control flow: conditions, loops
+## Control flow: variables, conditions, subshells
 
-should I do subshells too? `for NAME in $(cat names.txt); do echo $NAME; done` is pivotal, as is storing command output in a variable
+As we probably anticipated, Bash also has features typical of all programming languages that let us substitute "variable" names for literal data, conditions that execute commands only based on certain criteria, and loops that repeat operations a configurable number of times.
 
-- variables are a good prerequisite
+Bash variable assignment is straightforward: write a name, then equals `=`, then its value. To obtain the variables value later, prefix the name with a dollar sign `$`.
+
+Input
+{: .label .label-green}
+```sh
+$ NAME=Eric
+$ echo $NAME
+$ LASTNAME=Phetteplace
+$ echo $LASTNAME
+$ NAME="Adriadne Vegas"
+$ echo $NAME
+```
+
+Output
+{: .label .label-yellow}
+```sh
+Eric
+Phetteplace
+Adriadne Vegas
+```
+
+We see several notable things in this small example: _because spaces are meaningful characters_ we have to be cognizant of their usage. What happens if you write `LASTNAME = Phetteplace` with spaces? Also, we can overwrite existing variables by writing to them again.
+
+What if we wanted to store the value of a command in a variable? The syntax also involves a `$` though the two operations are not similar:
+
+Input
+{: .label .label-green}
+```sh
+$ NAME=$(tail -n 1 names.txt)
+$ ODDNAME=$(tail -n 1 names.txt | tr 'n' 'N' | tr 'e' '%')
+$ echo $NAME
+$ echo $ODDNAME
+```
+
+Output
+{: .label .label-yellow}
+```sh
+testname
+t%stNam%
+```
+
+The `$(...)` construction executes a **subshell** i.e. think of it as automating the process of us opening a new terminal window running the Bash shell, executing the command elided here as `...`, and then copy-pasting the stdout (if any) of that command back into our variable. Subshells are immensely useful in conjunction with the two other topics of this section: variables and loops.
+
+@TODO
+
 - `if` `else` `fi`
 - `&&` `||`
-- `for` `do` `done` loops
-
-Bash also has [`case`](https://tldp.org/LDP/Bash-Beginners-Guide/html/sect_07_03.html) conditions, where you check a series of conditions and can specify a fallback if not are met, and [`while`](https://tldp.org/LDP/Bash-Beginners-Guide/html/sect_09_02.html) loops that execute as long as a condition is true. These are less frequently used (I use them a tiny fraction of the time that I use `if` and `for`) and we won't cover them.
 
 Let's revisit our table of special characters now. The meanings of hashmark `#` and single ampersand `&` are new to us. We won't have time to go into background jobs but we will see `#` when we look at Bash scripting.
 
@@ -306,7 +347,7 @@ Let's revisit our table of special characters now. The meanings of hashmark `#` 
 | \| | instead of printing to stdout, pipe output to the next command
 | > | instead of printing to stdout, write output to a file
 | \>\> | instead of printing to stdout, append output to a file
-| $ | used to reference variables
+| $ | used to reference variables, open subshells
 | && | logical "and", run the following command if the preceding one was successful
 | \|\| | logical "or", run the following command if the preceding was unsuccessful
 | & | run the preceding command as a job in the background
@@ -335,7 +376,7 @@ done
 echo "Done sorting all files."
 ```
 
-This script concisely combines almost everything we've learned so far: subshells, variables, loops, globbing, writing to a file, and comments. Let's explain the few pieces that we don't understand yet. We can name it "script.sh" and run it by passing it to the Bash shell itself: `bash script.sh`.
+This script concisely combines almost everything we've learned so far: subshells, variables, globbing, writing to a file, and comments. Let's explain the few pieces that we don't understand yet. We can name it "script.sh" and run it by passing it to the Bash shell itself: `bash script.sh`.
 
 What if we don't want to specify the `bash` interpreter every time we run the script? To turn a script into something more like a real command, one indistinguishable from tools like `cat` and `echo`, we need to do two things: make the script tell the shell how to interpret its code and make it executable.
 
@@ -380,16 +421,53 @@ total 4232
 -rw-r--r--  1 ephetteplace  staff      106 Mar 16 12:56 sorted-names.txt
 ```
 
-The `+x` flag essentially means "give everyone executable permissions for this file". Now we can reference our script simply by its path, not specifying an interpreter, to run it: `./script.sh` (recall that period `.` references our current location)
+The `+x` flag essentially means "give everyone executable permissions for this file". Now we can reference our script simply by its path, not specifying an interpreter, to run it: `./script.sh` (recall that period `.` references our current location).
 
-One final note about executing programs. We will frequently run into commands which our user is not allowed to execute, or which attempt to modify portions of the file or operating system we are not allowed to modify. Common examples include updating software with `softwareupdate` on Mac or `apt-get update` on Linux.
+Whew, we've finally covered the hashbang and making something executable. But what about the `for...do...done` phrase in our script? That was a `for` loop which iterates over the output of the `$(ls *.txt)` subshell. For-loops can be used to A) iterate over all the words in a sentence, or B) iterate over all the lines in a file.
+
+```sh
+#!/usr/bin/env bash
+# These two loops are equivalent
+$ NAMES="Eric Adriadne Katharina Dixon"
+$ for NAME in $NAMES
+$ do
+$ echo $NAME
+$ done
+$ # translate space-separated text into newline-separated text, "\n" is a newline
+$ echo $NAMES | tr ' ' '\n' > namesfile.txt
+$ for NAME in $(cat namesfile.txt)
+$ do
+$ echo $NAME
+$ done
+```
+
+Note that Bash is rather loose about how you arrange these statements, you can write "do" on its own line, or alongside the first line of the looped operations e.g. `do echo $NAME`. What is nice is that Bash lets you type out loops over multiple lines: normally, when we insert a newline character by pressing <kbd>Enter</kbd> or <kbd>Return</kbd> the command line executes whatever text is the on prompt. But because Bash sees the "for" statement it knows to wait until it sees a corresponding "done" before executing our code.
+
+Bash also has [`case`](https://tldp.org/LDP/Bash-Beginners-Guide/html/sect_07_03.html) conditions, where you check a series of conditions and can specify a fallback if not are met, and [`while`](https://tldp.org/LDP/Bash-Beginners-Guide/html/sect_09_02.html) loops that execute as long as a condition is true. These are less frequently used (I use them a tiny fraction of the time that I use `if` and `for`) and we won't cover them.
+
+What about passing parameters to scripts? Let's write a script named "listnames.sh" that is like our demonstrative loops above but it accepts the names as parameter.
+
+```sh
+#!/usr/bin/env bash
+NAMES=$1
+for NAME in $NAMES
+do echo $NAME
+done
+```
+
+There are several special uses of `$` and `$1` refers to the _first_ argument passed to our script. Analogously, `$2` will be the second argument, etc. So to finish our example by making our script executable and running it we can do:
+
+```sh
+$ chmod +x listnames.sh
+$ ./listnames.sh "John Jacob Jingleheimer Schmidt"
+```
+
+A final note about executing programs: we will frequently run into commands that our user is not allowed to execute, or which attempt to modify portions of the file or operating system we are not allowed to modify. Common examples include updating software with `softwareupdate` on Mac or `apt-get update` on Linux.
 
 In these instances, we can use the `sudo` command as a prefix, which stands for **su**peruser **do**. So if we run `sudo softwareupdate` and then type in our password when prompted, `sudo` runs `softwareupdate` as the root, administrative user. `sudo` is one of the first _interactive_ commands we've seen, where the prompt pauses and awaits our input. `sudo` also lets you run commands as other, non-root, users. It is common to need to run commands on a web server as the same user as the web server software e.g. `sudo -u apache ./clear_cache.php` might run a "clear_cache.php" PHP script as the "apache" user.
 
 It should go without saying that allowing programs to run as the root user is inherently dangerous, as the elevated permissions allow almost anything to happen. Only run trusted programs with `sudo`.
 {: .warn }
-
-@TODO `$1` passing arguments to scripts?
 
 ## Customizing _our_ shell
 

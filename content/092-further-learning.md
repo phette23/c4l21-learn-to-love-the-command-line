@@ -23,6 +23,13 @@ A fair amount of these materials will repeat what we've covered in this workshop
 - [Bash Guide for Beginners](https://tldp.org/LDP/Bash-Beginners-Guide/html/index.html) covers virtually all Bash syntax but, most usefully, gives examples for everything and not only definitions
 - [Stack Overflow](https://stackoverflow.com/questions/tagged/bash) and the [Unix & Linux Stack Exchange](https://unix.stackexchange.com/) are great places for questions, as they are for many computing topics
 
+We covered the surface of many topics but here are a few I didn't have enough time for:
+
+- array variables
+- [string manipulation](https://tldp.org/LDP/abs/html/string-manipulation.html) using variables like finding string length with `${#NAME}`, substrings like `${NAME:4}` and `${NAME:4:2}` (starts at index of first number and runs the length of second number), removing characters `${NAME:test}` to remove "test" from the front of "testname" for instance while `${NAME%name}` removes "name" from the back of "testname" (this can be useful to strip file extensions e.g. `${FILENAME%.jpg}`)
+- parsing command-line arguments with `getopts`
+- the special Internal Field Separator `$IFS` variable which changes how Bash considers the separators between words in a sentence e.g. `LIST=one:two:three; IFS=':'; for N in $LIST; do echo $N; done` prints "one", "two", "three" on separate lines because a colon `:` is used as a separate instead of a space
+
 ## GLAM Software
 
 These are tools that may be particularly relevant for people in the <abbr title="Galleries, Libraries, Archives, and Museums">GLAM</abbr> space, though many of them are generically relevant tools that simply improve the quality of your command line life.
