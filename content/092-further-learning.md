@@ -110,7 +110,7 @@ $ while true; python manage.py clear_cache; sleep 10; done
 
 This `while true` phrase is a bit of a hack; `while` loops run until their condition becomes false, but the `true` shell builtin is always going to be, well, true. It's a simple way to generate an infinite loop. I can manually cancel the loops with the Ctrl+C keyboard interrupt when I'm done.
 
-## `csvkit` is an actual miracle
+### `csvkit` is an actual miracle
 
 When I went to email the attendees of this workshop, I immediately encountered an annoyance: the registration list was a plain HTML table with no easy means of copying just the email address column. Fittingly, the command-line offers a convenient solution in the form of Python's brilliant `csvkit`, which is a suite of utilities. You have to first `pip install csvkit` first for these commands to work. I copy-pasted the HTML table, which inserts tabs between columns, then ran this single command:
 
@@ -120,7 +120,34 @@ $ csvcut -t -c 3 attendees.tsv | pbcopy
 
 `csvcut` "cuts" the column specified by the `-c` parameter, which can be numeric (indexed from 1) or the name used in a header row. The `-t` flag specifies that the input file uses tabs as separators. `pbcopy` is a Mac utility that adds text to the OS clipboard.
 
-...more csvkit examples e.g from libraries_course_list repo
+We already saw, in one of the opening examples, an example of `csvformat` converting from comma to tab separation. But csvkit is a Swiss army knife of abilities. I use it extensively in my "[libraries_course_list](https://github.com/cca/libraries_course_lists)" project which processes course information into taxonomies (essentially hierarchical, controlled vocabularies) for our institutional repository. Here is an example passage:
+
+```sh
+#!/usr/bin/env fish
+# usage: ./upload-taxos-to-vault.fish data/report.csv
+# log to file named with today's date in ISO 8601
+set logfile logs/(date '+%Y-%m-%d').txt
+# parse institutional repository credentials from file using jq
+set pw (jq -r '.password' .credentials)
+set un (jq -r '.username' .credentials)
+
+# parse all department codes after trimming header row
+set departments (csvcut -c 2 $argv[1] | tail -n +2 | sort | uniq )
+for department in $departments
+    # full course list in EQUELLA taxonomy format
+    set taxonomy_name "$department - COURSE LIST"
+    set uuid (eq tax --name $taxonomy_name | jq -r '.uuid')
+    if [ $uuid ]
+        echo "Updating $taxonomy_name taxonomy" >> $logfile
+        uptaxo --tid $uuid --pw $pw --un $un \
+            --csv data/$department-course-list-taxo.csv >> $logfile
+    end
+end
+```
+
+The project uses the `fish` shell I've mentioned before and we can see some of its appeal in the simpler syntax of loops (no need for "do", all loop and if-conditions are closed by the same "end" statement whereas every bash construction has a different closing statement) and subshells (no `$` which conflates them with variable references).
+
+For use in this project and elsewhere, I wrote my own CLI to our openEQUELLA repository's REST API `[eq](https://github.com/cca/equella_cli)` which has proven invaluable. `uptaxo` is a CLI to another openEQUELLA script which **up**loads **taxo**nomies. While there are certainly better approaches than using a shell script to duct-tape together homemade tools, this workflow has saved me hours of my life and proven relatively bulletproof.
 
 ### Upload and restore multiple Moodle course backups
 
