@@ -38,6 +38,7 @@ The number one most frustrating thing about the command line, for me, has always
 - `fish` - nice shell that's more user friendly than bash
 - `git` - incredibly popular version control software
 - `homebrew` - makes installing & updating CLI software easy on a Mac
+- `rsync` - robust file synchronization locally or between machines
 - `tldr` - nicer help documentation for common tools
 - `todo-txt` - todo list app for the CLI
 - `vim` - popular text editor
@@ -165,24 +166,6 @@ $ sudo -u www-data moosh course-restore *.mbz 1
 $ # delete backup files
 $ rm *.mbz
 ```
-
-### Backup large Archive-IT WARC files
-
-My organization wants to create a backup copy of Archive-It's WARC files for a website. These files are numerous and up to a gigabyte in size; manually downloading and transferring each of them is tedious. [Their documentation](https://support.archive-it.org/hc/en-us/articles/360015225051-Find-and-download-your-WARC-files-with-WASAPI) shows how we can use the command line to retrieve a list of files for bulk download. The script below roughly outlines how we might create a list of files, download them one-by-one, remove a long temporary query string from the files' names, transfer them to a remote server, and finally remove them so they don't overwhelm our hard drive:
-
-```sh
-$ USER=username; PASS=password; COLLECTION=123456; REMOTE_SERVER=remote.storage.edu
-$ curl -u $USER:$PASS "https://warcs.archive-it.org/wasapi/v1/webdata?collection=$COLLECTION" > data.json
-$ jq -r .files[].locations[0] data.json > urls.txt
-$ for URL in $(cat urls.txt); do \
-wget --http-user=$USER --http-password=$PASS --accept txt,gz $URL; \
-rename -v 's/\?.*tmp//' *.tmp; \
-scp *.gz $REMOTE_SERVER; \
-rm -v *.gz; \
-done
-```
-
-If you can `ssh` into your remote server, it would be even more effective to simply run this command on that server and save yourself the `scp` transfer step.
 
 ### Run the openEQUELLA launcher with your password on your clipboard
 
