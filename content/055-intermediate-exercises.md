@@ -12,9 +12,25 @@ This expects you to have the [names.txt](https://phette23.github.io/c4l21-learn-
 
 ## 1. Writing a script
 
-@TODO
+Write a script to iterate over a text file of URLs and download any images among them, skipping the others.
 
-...write a script to do something
+<details>
+<summary><b>Open here for hints</b></summary>
+A regular expression you could use to identify most image URLs would be <code>'\.(jpe?g|png|webp)$'</code>. You will need to use <code>grep</code>'s <code>-E</code> flag. If using <code>curl</code> is proving too tricky try assuming that <code>wget $URL</code> will download a file even if your system does not have <code>wget</code> installed.
+</details>
+<br>
+
+<details>
+<summary><b>Open here to see solutions</b></summary>
+
+<pre><code>#!/usr/bin/env bash
+for URL in $(cat urls.txt); do
+# grep's "-q" flag silences output, you could also write output to /dev/null
+# like grep -E $REGEX >/dev/null (writing to /dev/null is a common pattern)
+echo $URL | grep -E -q '\.(jpe?g|png|webp)$' && wget $URL
+done</code></pre>
+</details>
+<br>
 
 ## 2. Using `seq` for iteration
 
@@ -32,7 +48,7 @@ $ tail -n $NUMBER names.txt | head -n1 >> reversed-names.txt
 $ done
 $ cat reversed-names.txt</code></pre>
 
-The actual, easiest way to do this is to use the <code>tac</code> command which is, in function and name, "reverse cat". It prints a file to stdout starting with the last line.
+<br>The actual, easiest way to do this is to use the <code>tac</code> command which is, in function and name, "reverse cat". It prints a file to stdout starting with the last line.
 </details>
 <br>
 
@@ -43,7 +59,7 @@ Aside: `seq -w` will ensure all integer strings are the same length by padding t
 **What could most easily be called the fundamental unit of data on the command line?**
 
 {: .lower-alpha-list }
-- binary data
+- binary
 - a line of text
 - a file
 - a folder
@@ -68,5 +84,5 @@ Yes, it's another somewhat subjective question.
 <details>
 <summary><b>Open here to the answer</b></summary>
 
-Pipelines are elegant and useful while running ad hoc commands one at a time; loops are more powerful (they can more easily use "if" conditions, for instance) and better suited to scripts. Pipelines are more compact than loops so it's easier to type them out. Loops are more verbose and can be tricky to type sometimes because of the way they break across multiple lines. Also, in a script, you can store data in a variable while performing repeated operations, making pipes less necessary.
+Pipelines are elegant and useful while running ad hoc commands one at a time; loops are more powerful (they can more easily use "if" conditions, for instance) and better suited to scripts. Pipelines are more compact than loops so it's easier to type them out. Loops are more verbose and can be tricky to type sometimes because of how they break across multiple lines. Also, in a script, you can store data in a variable while performing repeated operations, making pipes less necessary. Most scripts will use both pipes and loops but overly relying on pipes can be problematic. See <a href='/c4l21-learn-to-love-the-command-line/further-learning#csvkit-is-an-actual-miracle'>my csvkit script</a> example, for instance.
 </details>

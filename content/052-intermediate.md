@@ -286,7 +286,7 @@ There are some commands that have flags which let us edit files in place but kno
 
 As we probably anticipated, Bash also has features typical of all programming languages that let us substitute "variable" names for literal data, conditions that execute commands only based on certain criteria, and loops that repeat operations a configurable number of times.
 
-Bash variable assignment is straightforward: write a name, then equals `=`, then its value. To obtain the variables value later, prefix the name with a dollar sign `$`.
+Bash variable assignment is straightforward: write a name, then equals `=`, then its value. To obtain the variable's value later, prefix the name with a dollar sign `$`.
 
 Input
 {: .label .label-green}
@@ -306,6 +306,9 @@ Eric
 Phetteplace
 Adriadne Vegas
 ```
+
+It is not necessary to make variable names all-caps but it is a convention for the sake of clarity. You can also use underscores `_` and numbers in variable names, but the first character cannot be a number. Variable names are case sensitive ("name" is not the same as "NAME").
+{: .note }
 
 We see several notable things in this small example: _because spaces are meaningful characters_ we have to be cognizant of their usage. What happens if you write `LASTNAME = Phetteplace` with spaces? Also, we can overwrite existing variables by writing to them again.
 
