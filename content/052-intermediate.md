@@ -512,9 +512,34 @@ alias l="ls -al"
 alias cl="wc -l"
 ```
 
-`export` is another new command, it means that the environmental variable we're changing (in this instance, `PATH`) will be exported to any subshells. In general, anytime we change a variable in .bash_profile, we will want to `export` it or else the scripts we write may not work as expected.
+`export` is another new command, it means that the environmental variable we're changing (in this instance, `PATH`) will be exported to any subshells. In general, anytime we change a variable in .bash_profile, we will want to `export` it or else the scripts we write or subshells we run may not work as expected.
 
-@TODO prompt, PS1?
+We can also modify our _prompt_, the text that surrounds each command. This is done by modifying the `PS1` variable. You can insert the return values of various commands into this prompt but there are also a series of special escaped character codes that `PS1` interprets. [Here is a more complete list](https://www.gnu.org/software/bash/manual/html_node/Controlling-the-Prompt.html) but let's look at just a few notable ones:
+
+| Code | Meaning
+| --- | ---
+| \d | the current date in "Weekday Month Date" format (e.g., "Fri Mar 26").
+| \h | the hostname i.e. your computer's name
+| \s | the name of the shell e.g. "bash"
+| \t | the time in 24-hour HH:MM:SS format
+| \u | your username
+| \w | your current location
+
+Let's continue editing our .bash_profile to have a nicer prompt that cuts across two lines.
+
+```sh
+# .bash_profile
+export PATH="$PATH:/Users/ephetteplace/Code4Lib-CLI-Workshop"
+# a better, more-informative list
+alias l="ls -al"
+# a "count lines" command
+alias cl="wc -l"
+# looks like "ephetteplace @ computerName in /Some/path"
+# then a newline with a "$" prompt
+export PS1="\u @ \h in \w\n$ "
+```
+
+What about nice colors? Changing the color of text on the command line involves a bunch of wild-looking codes that can differ depending on your environment. You can see [my .bash_profile](https://github.com/phette23/bashrc/blob/main/inc/bash_prompt.sh) as an example. Fish shell, incidentally, has a _much_ nicer coloring API that's simply uses a [`set_color`](https://fishshell.com/docs/current/cmds/set_color.html) command.
 
 ## A Conclusion of sorts
 
