@@ -36,7 +36,12 @@ done</code></pre>
 
 `seq` is another simple but useful command that produces **seq**uences of integers. Try running `seq 0 3` and `seq 5 2` to get a sense of its usage. Without using a command we haven't learned yet, how can you _reverse_ the order of the lines in the names.txt file?
 
-Hint: `seq`, `tail`, `head`, and a `for` loop are the tools you need.
+<details>
+<summary><b>Open here for hints</b></summary>
+
+<code>seq</code>, <code>tail</code>, <code>head</code>, and a <code>for</code> loop are the tools you need.
+</details>
+<br>
 
 <details>
 <summary><b>Open here to see solutions</b></summary>
