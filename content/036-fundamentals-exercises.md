@@ -8,13 +8,13 @@ parent: CLI Fundamentals
 
 # Fundamentals Exercises
 
-These exercises are meant to make you comfortable with the command line: typing commands, moving around, creating/renaming files and folders.
+These exercises are meant to make you comfortable with the command line: typing commands, moving around, and manipulating files and folders.
 
 ## 1. Setup
 
 Using the command line: create a new folder, anywhere on your laptop. Then inside that folder create at least three plain text ".txt" files and a subfolder with at least one file in it. Print the full contents of your new folder in a way such that a) everything it contains is on its own line, b) the subfolder is highlighted as a folder and not merely another file, and c) the date created of the contents is visible.
 
-Move two of your text files into your subfolder. Now, move _all_ of the contents of the subfolder out of it and back into its parent _using only a single command_. Hint: think about some of the special characters we know about it. Now delete the (empty) subfolder. Confirm that the subfolder is gone yet you still have all your files by listing the parent folder's contents again.
+Move two of your text files into your subfolder. Then move _all_ of the contents of the subfolder out of it and back into its parent _using only a single command_. Hint: think about some of the special characters we know about it. Now delete the (empty) subfolder. Confirm that the subfolder is gone yet you still have all your files by listing the parent folder's contents again.
 
 <details>
 <summary><b>Open here to see solutions</b></summary>
@@ -63,13 +63,25 @@ No typing commands here, but a few questions for thought.
 <details>
 <summary><b>Open here to the answer</b></summary>
 
-<b>shell</b> is the most suitable term. Though bash is technically a command itself—try running <code>bash</code> in your terminal? What happens? Are you in <i>Inception</i>? If you're having fun with this, trying running `echo $SHLVL`, then `exit`, and finally `ECHO $SHLVL` again. What do you think happened?
+<b>shell</b> is the most suitable term. Bash is technically a command itself—try running <code>bash</code> in your terminal? What happens? Are you in <i>Inception</i>? If you're having fun with this, trying running `echo $SHLVL`, then `exit`, and finally `ECHO $SHLVL` again. What do you think happened?
 </details>
 <br>
 
 **Why do `mv` and `cp` accept arguments in the order that they do, performing a slightly different sort of operation if a folder is the final argument?**
 
-Consider the difference between `mv source.file destination.file` versus `mv source1.file source2.file Destination.folder`.
+Consider the difference between these two commands:
+
+```sh
+$ mv source.file destination.file
+$ mv source1.file source2.file Destination.folder
+```
+
+<details>
+<summary><b>Open here to the answer</b></summary>
+
+Commands operate differently depending on the order and quantity of their arguments so that they work as well with globbing (more than two arguments) as they do normally. `mv` wants to be support the syntax `mv *.file Destination.folder` thus it must supports a variable number of arguments. Since only a folder can accept multiple moved or copied files, it makes sense that the final argument must be a folder when there are multiple files referenced. The syntax also better mimics common English language structures: "_move_ the files source1 and source2 into the Destination folder" is more readable than "into folder Destination, _move_ the files source1 and source2".
+</details>
+<br>
 
 **Can you think of one task you've done recently, whether it's a one-time thing or a recurring one, that might have been made easier by using the command line?**
 

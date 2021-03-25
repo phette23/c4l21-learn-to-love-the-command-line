@@ -25,7 +25,7 @@ command I've written into a short script:
 
 ```sh
 $ csvformat -T $CSV_FILE | sed -e '1,2d' | \
-pbcopy && open $SPREADSHEET_URL && trash $CSV_FILE
+> pbcopy && open $SPREADSHEET_URL && trash $CSV_FILE
 ```
 
 I've combined this chain of commands into a script so I don't have to remember them all:
@@ -51,11 +51,11 @@ $ USER=username; PASS=password; COLLECTION=123456; REMOTE_SERVER=remote.storage.
 $ curl -u $USER:$PASS "https://warcs.archive-it.org/wasapi/v1/webdata?collection=$COLLECTION" > data.json
 $ jq -r .files[].locations[0] data.json > urls.txt
 $ for URL in $(cat urls.txt); do \
-wget --http-user=$USER --http-password=$PASS --accept txt,gz $URL; \
-rename -v 's/\?.*tmp//' *.tmp; \
-scp *.gz $REMOTE_SERVER; \
-rm -v *.gz; \
-done
+> wget --http-user=$USER --http-password=$PASS --accept txt,gz $URL; \
+> rename -v 's/\?.*tmp//' *.tmp; \
+> scp *.gz $REMOTE_SERVER; \
+> rm -v *.gz; \
+> done
 ```
 
 If we can `ssh` into our remote server, it would be even more effective to simply run these commands on that server and save ourselves the `scp` transfer step. `rsync` is also a better, but more complicated, tool for file transfer which is better about picking up where we left off if progress is interrupted.
@@ -66,11 +66,11 @@ If we can `ssh` into our remote server, it would be even more effective to simpl
 
 [Basics of the Unix Philosophy](https://homepage.cs.uri.edu/~thenry/resources/unix_art/ch01s06.html) elaborates this point well, including this synopsis: "Write programs that do one thing and do it well. Write programs to work together. Write programs to handle text streams, because that is a universal interface."
 
-**Software availability**: it seems incredible to say it in the year 2021 but some software still does not have a GUI and is only available on the command line. Web development build tools like `gulp` come to mind as not having a GUI equivalent. There is actually an enormous quantity of software written explicitly for the command line that we do not have access to otherwise.
+**Software availability**: it seems incredible to say it in the year 2021 but some software still does not have a GUI and is only available on the command line. Web development build tools like `gulp` and `webpack` come to mind as not having a GUI equivalent. There is an enormous quantity of software written explicitly for the command line that we do not have access to otherwise.
 
-Furthermore, some software like the popular `git` version control program _does_ have GUI applications but they are somewhat limited; more can be accomplished via the `git` CLI and often more quickly, too.
+Furthermore, some software programs like the popular `git` version control program _do_ have GUI applications but they are limited; more can be accomplished via the `git` CLI and often more quickly, too.
 
-**Scripting**: by their nature, all command line operations can be bunched together into a script and repeated whenever needed. These scripts can be context-sensitive by accessing environmental variables or arguments that are passed to them. GUIs can use macros or tools like Mac's Automator to approximate this but not with the same depth or elegance of the command line.
+**Scripting**: by their nature, all command line operations can be bunched together into a script and precisely repeated whenever needed. These scripts can be context-sensitive by accessing environmental variables or arguments that are passed to them. GUIs can use macros or tools like Mac's Automator to approximate this but not with the same depth or elegance as the command line.
 
 ## Running the command line
 
@@ -78,10 +78,10 @@ Let's all start a terminal and get ready for the information and exercises that 
 
 **On a Mac**: run Terminal.app which lives under Applications > Utilities. You can easily find Terminal by searching for it with Spotlight (click magnifying icon in your menu bar or use the keyboard shortcut <kbd>⌘ + Spacebar</kbd>).
 
-Mac OS X recently [changed it's default shell](https://support.apple.com/en-us/HT208050) from `bash` to `zsh`. While that's a fine choice, to simplify today's workshop I recommend we all use bash. If you are on Catalina or later, or for any reason see "zsh" as the response to the `echo $0` command below, switch to bash simply by running it as a command: type `bash` followed <kbd>Return</kbd>.
+Mac OS X recently [changed it's default shell](https://support.apple.com/en-us/HT208050) from `bash` to `zsh`. While that's a fine choice, to simplify today's workshop we will all use bash. If you are on Catalina or later, or for any reason see "zsh" as the response to the `echo $0` command below, switch to bash simply by running it as a command: type `bash` followed <kbd>Return</kbd>.
 {: .warn }
 
-**On Linux**: most distributions come with a builtin app, usually named "Terminal" or simmilar. On Ubuntu you can use Dash to search for "terminal" or the keyboard shortcut <kbd>Ctrl + Alt + T</kbd>. Ubuntu has comprehensive documentation on [how to start a terminal for various distributions](https://help.ubuntu.com/community/UsingTheTerminal#Starting_a_terminal).
+**On Linux**: most distributions come with a builtin app, usually named "Terminal" or similar. On Ubuntu you can use Dash to search for "terminal" or the keyboard shortcut <kbd>Ctrl + Alt + T</kbd>. Ubuntu has comprehensive documentation on [how to start a terminal for various distributions](https://help.ubuntu.com/community/UsingTheTerminal#Starting_a_terminal).
 
 **On Windows**: run the [Git Bash](https://gitforwindows.org) program we downloaded earlier.
 
@@ -93,7 +93,7 @@ Input
 $ echo $0
 ```
 
-When you have typed out "<kbd>e-c-h-o-space-dollar-zero</kbd>" press <kbd>Enter</kbd> or <kbd>Return</kbd> to execute the command. You should see "bash" as a response, the name of the shell we're using.
+When you have typed out "<kbd>e-c-h-o-space-dollar-zero</kbd>" press <kbd>Enter</kbd> or <kbd>Return</kbd> to execute the command. You should see something ending in "bash" as a response, the name of the shell we're using.
 
 Output
 {: .label .label-yellow }
@@ -101,6 +101,6 @@ Output
 bash
 ```
 
-If you _don't_ see the text "bash", please let me know so we can figure out what went wrong. You may need to retype the command or your system may not be configured as expected.
+If you _don't_ see "bash", "/usr/bin/bash", or similar, please let me know so we can figure out what went wrong. You may need to retype the command or your system may not be configured as expected.
 
 We just ran our first command! Hurrah! In the sections that follow, I will be talking about the syntax of the command line, some fundamental commands, and various options. You can feel free to follow along on your own. If you run into a problem or are not seeing the same thing as me, feel free to stop me to ask a question.

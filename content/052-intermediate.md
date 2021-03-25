@@ -328,7 +328,7 @@ Secondly, an analogous problem occurs when appending output to the input file: i
 
 There are some commands that have flags which let us edit files in place but know that this is not typically the way things work in the shell, but has to be specially supported.
 
-## Control flow: variables, conditions, subshells
+## Control flow: variables, subshells, conditions
 
 As we probably anticipated, Bash also has features typical of all programming languages that let us substitute "variable" names for literal data, conditions that execute commands only based on certain criteria, and loops that repeat operations a configurable number of times.
 
