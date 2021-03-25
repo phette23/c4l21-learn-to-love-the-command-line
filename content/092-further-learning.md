@@ -26,6 +26,7 @@ A fair amount of these materials will repeat what we've covered in this workshop
 We covered the surface of many topics but here are a few I didn't have enough time for:
 
 - standard error (stderr), a separate output stream that commands have when things go wrong
+- the exit status of a command, represented by `$?` in Bash
 - silencing command output with `>/dev/null` (writing to a special "null" file)
 - array variables
 - [string manipulation](https://tldp.org/LDP/abs/html/string-manipulation.html) using variables like finding string length with `${#NAME}`, substrings like `${NAME:4}` and `${NAME:4:2}` (starts at index of first number and runs the length of second number), removing characters `${NAME:test}` to remove "test" from the front of "testname" for instance while `${NAME%name}` removes "name" from the back of "testname" (this can be useful to strip file extensions e.g. `${FILENAME%.jpg}`)
@@ -34,7 +35,7 @@ We covered the surface of many topics but here are a few I didn't have enough ti
 
 ## GLAM Software
 
-These are tools that may be particularly relevant for people in the <abbr title="Galleries, Libraries, Archives, and Museums">GLAM</abbr> space, though many of them are generically relevant tools that simply improve the quality of your command line life.
+These are tools that may be particularly relevant for people in the <abbr title="Galleries, Libraries, Archives, and Museums">GLAM</abbr> space, though many of them are generically relevant tools that will improve the quality of command line life.
 
 The most frustrating thing about the command line, for me, has always been installing and configuring software. Getting things running, particularly in a Windows environment but often on Mac too, can be a struggle. My advice is to 1) search the web for solutions because you are not the first with your problem, 2) ask for help on [the Code4Lib Slack](https://code4lib.org/slack), 3) check that executables are on your `$PATH`, and 4) do not let  frustration dissuade you from trying.
 {: .warn}
@@ -44,7 +45,7 @@ The most frustrating thing about the command line, for me, has always been insta
 - `ack` - great regular expression search utility
 - `curl` - make HTTP requests, do stuff with URLs
 - `exa` - nicer version of `ls`
-- `fish` - nice shell that's more user friendly than bash
+- `fish` - user-friendly shell with nicer syntax
 - `git` - incredibly popular version control software
 - `homebrew` - makes installing & updating CLI software easy on a Mac
 - `rsync` - robust file synchronization locally or between machines
@@ -54,7 +55,7 @@ The most frustrating thing about the command line, for me, has always been insta
 - `vim` - popular text editor
 - `wget` - download web content
 - `z` - quicker navigation, remembers commonly visited places
-- `zsh` - another nice shell, bash alternative that is more popular than fish
+- `zsh` - another nice shell, bash alternative that is more popular than `fish`
 
 ### Metadata
 
@@ -79,11 +80,11 @@ The most frustrating thing about the command line, for me, has always been insta
 
 ### Coding, Web Development
 
-Every programming language has a suite of command line tools to help you code, performing tasks like compiling or optimizing code, linting it for problems, quickly scaffolding out project templates. Languages also usually come with a builtin <abbr title="Read-Eval-Print Loop">REPL</abbr> which is a sort of CLI for the language itself, letting you write code one line at a time to learn or test.
+Every programming language has a suite of command line tools to help you code, performing tasks like compiling or optimizing code, "linting" it to detect potential problems, and quickly scaffolding out project templates. Languages also come with a builtin <abbr title="Read-Eval-Print Loop">REPL</abbr> which is a sort of CLI for the language itself, letting you write code one line at a time to learn or test.
 
 When I use Python on a project, I use `pipenv` to manage my python version and dependencies. The popular Django website framework has its own command-line interface.
 
-Similarly, Ruby projects can use `bundler` and `rbenv` to manage dependencies and ruby versions respectively.
+Similarly, Ruby projects can use `rbenv` and `bundler` to manage ruby versions and dependencies respectively.
 
 When I'm writing JavaScript, or honestly even web projects that do not really involve JS, I always end up using `node`, `npm`, and a suite of related tools. `npm` not only manages dependencies but also lets you define custom scripts in its package.json configuration file. `gulp` is my processing/build tool of choice but `grunt` used to be (and yes I find it funny that `node` developers are writing generations of tools named after unflattering bodily sounds).
 
@@ -91,11 +92,11 @@ When I'm writing JavaScript, or honestly even web projects that do not really in
 
 ## More Example Projects
 
-I generated several examples to show the power of the command line but couldn't include them all at the beginning of the workshop.
+I wrote several examples to show the power of the command line but couldn't include them all at the beginning of the workshop.
 
 ### Download several files at once
 
-I needed a few logs from our Moodle LMS. These are trivial to download all at once if I know how the filenames are structured and use the `seq` (sequence) command which returns a range of integers.
+I needed a few logs from our LMS. These are trivial to download all at once if I know how the filenames are structured and use the `seq` (**seq**uence) command which returns a range of integers.
 
 ```sh
 scp moo:/var/log/moodle/12-2020120$(seq 5 7)-020000.csv .
@@ -103,7 +104,7 @@ scp moo:/var/log/moodle/12-2020120$(seq 5 7)-020000.csv .
 
 Also handy: `seq -w` pads with zeroes so all numbers are same length, see this example: `seq -w 7 11`
 
-You also `wget` a series of files with predictable, numeric IDs. For instance, to download a hundred images with formulaic filenames 0001.jpeg to 0100.jpeg from a website:
+You can also `wget` a series of files with predictable, numeric IDs. For instance, to download a hundred images with formulaic filenames 0001.jpeg to 0100.jpeg from a website:
 
 ```sh
 wget https://example.com/0$(seq -w 1 100).jpeg
@@ -111,7 +112,7 @@ wget https://example.com/0$(seq -w 1 100).jpeg
 
 ### Working with website images
 
-Each year, we change the main home page image of our website. I provide sample screenshots of what the website will look like with several different image options. To do this, I need to both take a bunch of screenshots and refresh a preview of the website, which sometimes doesn't work because of caching. To automatically move the screenshots I'm taking to a "HomePageImages" directory while repeatedly clearing the cache, I run two never-ending loops:
+Each year, we change the main home page image of our website. I provide sample screenshots of what the website will look like with several different image options. To do this, I need to both take a bunch of screenshots and refresh a preview of the website, which sometimes doesn't update because of caching. To automatically move the screenshots I'm taking to a "HomePageImages" directory while repeatedly clearing the cache, I run two never-ending loops:
 
 ```sh
 $ # on my laptop in my Downloads folder
@@ -120,19 +121,11 @@ $ # on the web server running our Django site
 $ while true; python manage.py clear_cache; sleep 10; done
 ```
 
-This `while true` phrase is a bit of a hack; `while` loops run until their condition becomes false, but the `true` shell builtin is always going to be, well, true. It's a simple way to generate an infinite loop. I can manually cancel the loops with the Ctrl+C keyboard interrupt when I'm done.
-
-### Working with massive files
-
-We had a recent crisis at work—apparently numerous rows of database information were somehow dropped during a backup procedure, causing a bunch of broken references to files in the Moodle learning management system, our most important web application. I cannot quite show a series of commands that resolved the situation but without the command line we would have had much more trouble resolving the problem.
-
-I was able to identify the missing rows by looking for a gap in identifiers in the database, the identifiers are automatically incremented so they appear as a numerically ascending list. Looking at the last identifier we had before the missing rows let me know what to look for in a massive SQL backup file. I then used `grep` to find the right data in SQL and the `vim` editor to cut it out of the huge file. While `vim` is hard to learn it has handy features like "delete these specific N lines of text" that make it possible to find the relevant parts of a massive file and delete everything around them. Because CLI tools handle text in partial _streams_ rather than as a monolithic blob that needs to be fully loaded into memory they were able to inspect our massive backups whereas my GUI text editor crashed.
-
-Some of the tools I used: the `moosh` CLI to Moodle, `ssh` to access our server and `scp` to transfer files to and from it, `grep` to search our SQL backups, and `vim` to modify the backups.
+This `while true` phrase is a hack; `while` loops run until their condition becomes false, but the `true` shell builtin is always going to be, well, true. It's a simple way to generate an infinite loop. `sleep` causes the shell to pause for a number of seconds so I'm not hammering my operating system with commands every millisecond. I manually cancel the loops with the Ctrl+C keyboard interrupt when I'm done.
 
 ### `csvkit` is an actual miracle
 
-When I went to email the attendees of this workshop, I immediately encountered an annoyance: the registration list was a plain HTML table with no easy means of copying just the email address column. Fittingly, the command-line offers a convenient solution in the form of Python's brilliant `csvkit`, which is a suite of utilities. You have to first `pip install csvkit` first for these commands to work. I copy-pasted the HTML table, which inserts tabs between columns, then ran this single command:
+When I went to email the attendees of this workshop, I immediately encountered an annoyance: the registration list was a plain HTML table with no easy means of copying just the email address column. Fittingly, the command-line offers a convenient solution in the form of Python's brilliant `csvkit`, a suite of tabular data utilities. You have to first `pip install csvkit` first for these commands to work. I copy-pasted the HTML table to a file, which inserts tabs between columns, then ran this single command:
 
 ```sh
 $ csvcut -t -c 3 attendees.tsv | pbcopy
@@ -140,9 +133,9 @@ $ csvcut -t -c 3 attendees.tsv | pbcopy
 
 `csvcut` "cuts" the column specified by the `-c` parameter, which can be numeric (indexed from 1) or the name used in a header row. The `-t` flag specifies that the input file uses tabs as separators. `pbcopy` is a Mac utility that adds text to the OS clipboard.
 
-We already saw, in one of the opening examples, an example of `csvformat` converting from comma to tab separation. But csvkit is a Swiss army knife of abilities. I use it extensively in my "[libraries_course_list](https://github.com/cca/libraries_course_lists)" project which processes course information into taxonomies (essentially hierarchical, controlled vocabularies) for our institutional repository. Here is an example passage:
+We already saw, in one of the opening examples, an example of `csvformat` converting from comma to tab separation. But csvkit is a Swiss army knife of abilities. I use it extensively in my "[libraries_course_list](https://github.com/cca/libraries_course_lists)" project which processes course information into taxonomies (essentially hierarchical controlled vocabularies) for our institutional repository. Here is an example passage:
 
-```sh
+```
 #!/usr/bin/env fish
 # usage: ./upload-taxos-to-vault.fish data/report.csv
 # log to file named with today's date in ISO 8601
@@ -165,9 +158,17 @@ for department in $departments
 end
 ```
 
-The project uses the `fish` shell I've mentioned before and we can see some of its appeal in the simpler syntax of loops (no need for "do", all loop and if-conditions are closed by the same "end" statement whereas every bash construction has a different closing statement) and subshells (no `$` which conflates them with variable references).
+The project uses the `fish` shell I mentioned before and we can see some of its appeal in the simpler syntax of loops (no need for "do", all loop and if-conditions are closed by the same "end" statement whereas every Bash construction has a different closing statement) and subshells (no `$` which conflates them with variable references).
 
-For use in this project and elsewhere, I wrote my own CLI to our openEQUELLA repository's REST API `[eq](https://github.com/cca/equella_cli)` which has proven invaluable. `uptaxo` is a CLI to another openEQUELLA script which **up**loads **taxo**nomies. While there are certainly better approaches than using a shell script to duct-tape together homemade tools, this workflow has saved me hours of my life and proven relatively bulletproof.
+For use in this project and elsewhere, I wrote my own CLI to our openEQUELLA repository's REST API [eq](https://github.com/cca/equella_cli) which has proven invaluable. `uptaxo` is a CLI to another openEQUELLA script which **up**loads **taxo**nomies. While there are certainly better approaches than using a shell script to duct-tape together homemade tools, this workflow has saved me hours of my life and proven relatively bulletproof.
+
+### Working with massive files
+
+We had a recent crisis at work—apparently numerous rows of database information were somehow dropped during a backup procedure, causing a bunch of broken references to files in Moodle, our most important web application. I cannot quite show a series of commands that resolved the situation but without the command line we would have had much more trouble resolving the problem.
+
+I was able to identify the missing rows by looking for a gap in identifiers in the database, the identifiers are automatically incremented so they appear as a numerically ascending list. Looking at the last identifier we had before the missing rows let me know what to look for in a massive SQL backup file. I then used `grep` to find the right data in SQL and the `vim` editor to cut it out of the huge file. While `vim` is hard to learn it has handy features like "delete these specific N lines of text" that make it possible to find the relevant parts of a massive file and delete everything around them. Because CLI tools handle text in partial _streams_ rather than as a monolithic blob that needs to be fully loaded into memory, they were able to inspect our massive backups whereas my GUI text editor crashed.
+
+Some of the tools I used: the `moosh` CLI to Moodle, the `mysql` database CLI, `ssh` to access our server and `scp` to transfer files to and from it, `grep` to search our SQL backups, and `vim` to modify the backups.
 
 ### Upload and restore multiple Moodle course backups
 
@@ -200,4 +201,4 @@ jq -r '.password' ~/.equellarc | tr -d '\n' | pbcopy
 
 The `2&>/dev/null` phrase silences all output of the command while the final `&` runs it in the background. I put this script on my path so I can simply run it in my open terminal window but then continue working.
 
-I have an ".equellarc" file with credentials in my user's home folder because of the aforementioned `[equella-cli](https://www.npmjs.com/package/equella-cli)` tool.
+I have an ".equellarc" file with credentials in my user's home folder because of the aforementioned [equella-cli](https://www.npmjs.com/package/equella-cli) tool.
