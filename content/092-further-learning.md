@@ -25,16 +25,18 @@ A fair amount of these materials will repeat what we've covered in this workshop
 
 We covered the surface of many topics but here are a few I didn't have enough time for:
 
+- standard error (stderr), a separate output stream that commands have when things go wrong
+- silencing command output with `>/dev/null` (writing to a special "null" file)
 - array variables
 - [string manipulation](https://tldp.org/LDP/abs/html/string-manipulation.html) using variables like finding string length with `${#NAME}`, substrings like `${NAME:4}` and `${NAME:4:2}` (starts at index of first number and runs the length of second number), removing characters `${NAME:test}` to remove "test" from the front of "testname" for instance while `${NAME%name}` removes "name" from the back of "testname" (this can be useful to strip file extensions e.g. `${FILENAME%.jpg}`)
 - parsing command-line arguments with `getopts`
-- the special Internal Field Separator `$IFS` variable which changes how Bash considers the separators between words in a sentence e.g. `LIST=one:two:three; IFS=':'; for N in $LIST; do echo $N; done` prints "one", "two", "three" on separate lines because a colon `:` is used as a separate instead of a space
+- the special Internal Field Separator `$IFS` variable which changes how Bash considers the separators between words in a sentence e.g. `LIST=one:two:three; IFS=':'; for N in $LIST; do echo $N; done` prints "one", "two", "three" on separate lines because a colon `:` is used as a separator instead of a space
 
 ## GLAM Software
 
 These are tools that may be particularly relevant for people in the <abbr title="Galleries, Libraries, Archives, and Museums">GLAM</abbr> space, though many of them are generically relevant tools that simply improve the quality of your command line life.
 
-The number one most frustrating thing about the command line, for me, has always been installing and configuring software. Getting things running, particularly in a Windows environment but often on Mac too, can be a struggle. My advice is to 1) search the web for solutions because you are not the first with your problem, 2) ask for help on [the Code4Lib Slack](https://code4lib.org/slack), 3) check that executables are on your `$PATH`, and 4) do not let  frustration dissuade you from trying.
+The most frustrating thing about the command line, for me, has always been installing and configuring software. Getting things running, particularly in a Windows environment but often on Mac too, can be a struggle. My advice is to 1) search the web for solutions because you are not the first with your problem, 2) ask for help on [the Code4Lib Slack](https://code4lib.org/slack), 3) check that executables are on your `$PATH`, and 4) do not let  frustration dissuade you from trying.
 {: .warn}
 
 ### Improved Fundamentals
@@ -46,6 +48,7 @@ The number one most frustrating thing about the command line, for me, has always
 - `git` - incredibly popular version control software
 - `homebrew` - makes installing & updating CLI software easy on a Mac
 - `rsync` - robust file synchronization locally or between machines
+- `sed` - **s**tream **ed**itor, text transformations like substitutions
 - `tldr` - nicer help documentation for common tools
 - `todo-txt` - todo list app for the CLI
 - `vim` - popular text editor
@@ -59,6 +62,7 @@ The number one most frustrating thing about the command line, for me, has always
 - `csvkit` - Python tools for CSV processing
 - `exiftool` - look at image file metadata (EXIF tags)
 - `jq` - JSON data processing
+- `marcli` - search through MARC files, print legible fields
 - `marcgrep.pl` - search over MARC files for fields matching a pattern
 - `miller` - more CSV & JSON processing tools
 - `xmlstarlet` - XML metadata manipulation
@@ -77,7 +81,7 @@ The number one most frustrating thing about the command line, for me, has always
 
 Every programming language has a suite of command line tools to help you code, performing tasks like compiling or optimizing code, linting it for problems, quickly scaffolding out project templates. Languages also usually come with a builtin <abbr title="Read-Eval-Print Loop">REPL</abbr> which is a sort of CLI for the language itself, letting you write code one line at a time to learn or test.
 
-When I use Python on a project, I always use `pipenv` to manage my python version and dependencies. The popular Django website framework has its own command-line interface.
+When I use Python on a project, I use `pipenv` to manage my python version and dependencies. The popular Django website framework has its own command-line interface.
 
 Similarly, Ruby projects can use `bundler` and `rbenv` to manage dependencies and ruby versions respectively.
 
@@ -188,4 +192,4 @@ jq -r '.password' ~/.equellarc | tr -d '\n' | pbcopy
 
 The `2&>/dev/null` phrase silences all output of the command while the final `&` runs it in the background. I put this script on my path so I can simply run it in my open terminal window but then continue working.
 
-I have an ".equellarc" file with credentials in my user's home folder because I use my own CLI tool `[equella-cli](https://www.npmjs.com/package/equella-cli)` to perform many operations on our IR.
+I have an ".equellarc" file with credentials in my user's home folder because of the aforementioned `[equella-cli](https://www.npmjs.com/package/equella-cli)` tool.
