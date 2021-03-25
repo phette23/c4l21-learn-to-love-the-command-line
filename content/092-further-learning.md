@@ -109,7 +109,7 @@ You also `wget` a series of files with predictable, numeric IDs. For instance, t
 wget https://example.com/0$(seq -w 1 100).jpeg
 ```
 
-### Working with Website Images
+### Working with website images
 
 Each year, we change the main home page image of our website. I provide sample screenshots of what the website will look like with several different image options. To do this, I need to both take a bunch of screenshots and refresh a preview of the website, which sometimes doesn't work because of caching. To automatically move the screenshots I'm taking to a "HomePageImages" directory while repeatedly clearing the cache, I run two never-ending loops:
 
@@ -121,6 +121,14 @@ $ while true; python manage.py clear_cache; sleep 10; done
 ```
 
 This `while true` phrase is a bit of a hack; `while` loops run until their condition becomes false, but the `true` shell builtin is always going to be, well, true. It's a simple way to generate an infinite loop. I can manually cancel the loops with the Ctrl+C keyboard interrupt when I'm done.
+
+### Working with massive files
+
+We had a recent crisis at work—apparently numerous rows of database information were somehow dropped during a backup procedure, causing a bunch of broken references to files in the Moodle learning management system, our most important web application. I cannot quite show a series of commands that resolved the situation but without the command line we would have had much more trouble resolving the problem.
+
+I was able to identify the missing rows by looking for a gap in identifiers in the database, the identifiers are automatically incremented so they appear as a numerically ascending list. Looking at the last identifier we had before the missing rows let me know what to look for in a massive SQL backup file. I then used `grep` to find the right data in SQL and the `vim` editor to cut it out of the huge file. While `vim` is hard to learn it has handy features like "delete these specific N lines of text" that make it possible to find the relevant parts of a massive file and delete everything around them. Because CLI tools handle text in partial _streams_ rather than as a monolithic blob that needs to be fully loaded into memory they were able to inspect our massive backups whereas my GUI text editor crashed.
+
+Some of the tools I used: the `moosh` CLI to Moodle, `ssh` to access our server and `scp` to transfer files to and from it, `grep` to search our SQL backups, and `vim` to modify the backups.
 
 ### `csvkit` is an actual miracle
 

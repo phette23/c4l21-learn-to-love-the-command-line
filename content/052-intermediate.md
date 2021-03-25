@@ -249,7 +249,58 @@ testname
 testname
 ```
 
-@TODO - other text tools that work with output redirection: `sed`, `grep`
+`tr` translates characters one-by-one but we can use a more all-purpose, but complex, command to perform larger substitutions:
+
+Input
+{: .label .label-green}
+```sh
+$ tail -n 5 names.txt | sed 's|name|NAME|'
+```
+
+Output
+{: .label .label-yellow}
+```sh
+NAMEyMcNameName
+phette23
+testNAME
+testNAME
+testNAME
+```
+
+`sed` is a **s**tream **ed**itor with enough choices that it is practically a programming language unto itself. For our purposes, we will only learn the **s**ubstitute command. `sed`'s first argument may look strange because of it's special format. The first letter actually stands for the editing operation, in this case `s` for substitution, then we can use any character as a separator to divide up our original string and what we want to replace it with. So `sed 's|name|NAME|'` and `sed 's/name/NAME/'` are identical commands: the first uses a vertical bar `|` as separator while the second uses a forward slash `/`.
+
+The first piece of a `sed` substitution is actually be a **regular expression**. We won't learn more about these today—and it's truly necessary to know much for simple search-and-replace operations—but naturally segue into another popular command, `grep` which searches for regular expressions.
+
+Input
+{: .label .label-green}
+```sh
+$ grep 'names' names.txt
+```
+
+Output
+{: .label .label-yellow}
+```sh
+names
+names with spaces in it
+```
+
+`grep` returned _only the lines that matched the phrase "names"_. As with all the commands we're seeing, we can pipe data to grep instead of passing it a file:
+
+Input
+{: .label .label-green}
+```sh
+$ tail -n 5 names.txt | grep '[0-9]'
+```
+
+Output
+{: .label .label-yellow}
+```sh
+phette23
+```
+
+This uses a less familiar regular expression, it's not search for the literal phrase "[0-9]" but instead for "any character in the range 0 to 9" e.g. any number. So take altogether our command prints any name that is 1) in the last five lines of names.txt (the `tail` part) and 2) has a number in it (the `grep` part).
+
+If we know regular expressions, `sed` and `grep` unlock an enormous amount of power.
 
 ## Writing output to a file
 
@@ -376,7 +427,7 @@ We can try redefining the `$FILE` variable then using up-arrow to get our long i
 Here are the elements of an if condition in order:
 
 1. `if` starts the statement
-1. double or single square brackets `[[ ... ]]` wrap a condition, there is a slight difference between `[[` and `[` but in general double brackets are preferable
+1. double or single square brackets `[[ ... ]]` wrap a condition, there are [a few differences](http://mywiki.wooledge.org/BashFAQ/031) between `[[` and `[` but we only use `[[` as it is less error-prone
 1. there are many flags and comparisons that can be done inside the brackets, which we won't go into here, but running `man [` (note: single bracket) shows you many of the options
 1. `then` prefixes the command to be conditionally run
 1. (optionally) any number of "else if" `elif` conditions and their corresponding `then` commands
