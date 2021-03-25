@@ -25,9 +25,9 @@ A regular expression you could use to identify most image URLs would be <code>'\
 
 <pre><code>#!/usr/bin/env bash
 for URL in $(cat urls.txt); do
-# grep's "-q" flag silences output, you could also write output to /dev/null
-# like grep -E $REGEX >/dev/null (writing to /dev/null is a common pattern)
-echo $URL | grep -E -q '\.(jpe?g|png|webp)$' && wget $URL
+  # grep's "-q" flag silences output, you could also write output to /dev/null
+  # like grep -E $REGEX >/dev/null (writing to /dev/null is a common pattern)
+  echo $URL | grep -E -q '\.(jpe?g|png|webp)$' && wget $URL
 done</code></pre>
 </details>
 <br>
@@ -48,9 +48,8 @@ done</code></pre>
 
 <pre><code>$ LENGTH=$(cat names.txt | wc -l)
 $ for NUMBER in $(seq 1 $LENGTH)
-$ do
-$ tail -n $NUMBER names.txt | head -n1 >> reversed-names.txt
-$ done
+> do tail -n $NUMBER names.txt | head -n 1 >> reversed-names.txt
+> done
 $ cat reversed-names.txt</code></pre>
 
 <br>The actual, easiest way to do this is to use the <code>tac</code> command which is, in function and name, "reverse cat". It prints a file to stdout starting with the last line.
@@ -72,7 +71,7 @@ Aside: `seq -w` will ensure all integer strings are the same length by padding t
 <details>
 <summary><b>Open here to the answer</b></summary>
 
-This is a philosophical question and thus debatable but <b>a line of text</b> is the best answer for reasons we've repeatedly seen during the intermediate topics: data passed through a command pipeline is processed one line a time; when you iterate over a file it is done one line at a time; and we even write out of our commands one line a a time.
+This is a philosophical question and thus debatable but <b>a line of text</b> is the best answer for reasons we've repeatedly seen during the intermediate topics: data passed through a command pipeline is processed one line a time; when we iterate over a file it is done one line at a time; and we even write out of our commands one line a a time.
 
 "A file" might seem like the answer but it is actually possible to perform many complex operations without ever creating or referencing a file, for instance streaming data from a website, through a series of text manipulations, and back out to the web. Most of the time when we were writing to or accessing files it was more a matter of convenience than a necessity.
 </details>
@@ -80,7 +79,7 @@ This is a philosophical question and thus debatable but <b>a line of text</b> is
 
 **Any command can be incorporated into the prompt. What might be some useful information you would want displayed when you use the command line?**
 
-Consider that commands that rely on network requests or very expensive operations make a poor choice, since they will be executed every time a fresh command prompt appears.
+Consider that commands that rely on network requests or very expensive operations are a poor choice, since they will be executed every time a fresh command prompt appears.
 
 **Are loops more suitable for scripts or ad hoc commands typed one-by-one? Same question for piping data between commands: is this more suitable to scripts or ad hoc commands?**
 
@@ -89,5 +88,5 @@ Yes, it's another somewhat subjective question.
 <details>
 <summary><b>Open here to the answer</b></summary>
 
-Pipelines are elegant and useful while running ad hoc commands one at a time; loops are more powerful (they can more easily use "if" conditions, for instance) and better suited to scripts. Pipelines are more compact than loops so it's easier to type them out. Loops are more verbose and can be tricky to type sometimes because of how they break across multiple lines. Also, in a script, you can store data in a variable while performing repeated operations, making pipes less necessary. Most scripts will use both pipes and loops but overly relying on pipes can be problematic. See <a href='/c4l21-learn-to-love-the-command-line/further-learning#csvkit-is-an-actual-miracle'>my csvkit script</a> example, for instance.
+Pipelines are elegant and useful while running ad hoc commands one at a time; loops are more powerful (they can more easily use "if" conditions, for instance) and better suited to scripts. Pipelines are more compact than loops so it's easier to type them out. Loops are more verbose and can be tricky to type sometimes because of how they break across multiple lines. Also, in a script, we can store data in a variable while performing repeated operations, making pipes less necessary. Most scripts will use both pipes and loops but overly relying on pipes can be problematic. See <a href='/c4l21-learn-to-love-the-command-line/further-learning#csvkit-is-an-actual-miracle'>my csvkit script</a> example, for instance.
 </details>
