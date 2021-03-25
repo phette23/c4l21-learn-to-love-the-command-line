@@ -6,13 +6,6 @@ permalink: /intermediate/
 has_children: true
 ---
 
-@TODO
-
-- text tools that work with output redirection: `sed`
-- other assorted tools: `grep`, `less`?
-
----
-
 # Intermediate command line topics
 
 At the start, I mentioned that "text is the universal interface", but we've not truly seen how the command line handles text. First, let's download this example files of names and then do a bunch of operations on it:
@@ -256,6 +249,8 @@ testname
 testname
 ```
 
+@TODO - other text tools that work with output redirection: `sed`, `grep`
+
 ## Writing output to a file
 
 All this manipulating text output is well and good but what if we want to write results to a file? It's relatively rare that we want merely to view transformed text, we usually want to save the changes in a file. Luckily, much like the vertical bar `|` pipes one command's output to another's input, we can use the greater than symbol `>` to write output to a file:
@@ -330,12 +325,67 @@ testname
 t%stNam%
 ```
 
-The `$(...)` construction executes a **subshell** i.e. think of it as automating the process of us opening a new terminal window running the Bash shell, executing the command elided here as `...`, and then copy-pasting the stdout (if any) of that command back into our variable. Subshells are immensely useful in conjunction with the two other topics of this section: variables and loops.
+The `$( ... )` construction executes a **subshell** i.e. think of it as automating the process of us opening a new terminal window running the Bash shell, executing the command elided here as `...`, and then copy-pasting the stdout (if any) of that command back into our variable. You can also wrap a command in backticks "\` ... \`" to execute a subshell. Subshells are immensely useful in conjunction with the two of our other topics, variables and loops, as we shall see in the next section.
 
-@TODO
+Up until now, most of the commands I've given executed _successfully_. What does this mean? We've seen that successful commands return output in the form of "stdout" which we can redirect to other commands and files. Let's learn what happens with failed commands by learning a special boolean syntax: two adjacent ampersands `&&` are a "logical and" which, when inserted in between two commands, cause the second command to run _only if the first was successful_.
 
-- `if` `else` `fi`
-- `&&` `||`
+```sh
+$ tail -n 2 names.txt && echo "Success"
+testname
+testname
+Success
+$ tail -n 2 "this file does not exist" && echo "Success"
+tail: this file does not exist: No such file or directory
+```
+
+Our first command has its usual output (the last two lines of names.txt) but also adds a "Success" on the end. The second command shows error output but _no_ success; the `echo` command was never even executed because of how `&&` works.
+
+Two adjacent vertical bars `||` is a "logical or" and does the opposite: the second commands runs _only if the first failed_. Let's repeat our two `tail` commands:
+
+```sh
+$ tail -n 2 names.txt || echo "Failure"
+testname
+testname
+$ tail -n 2 "this file does not exist" || echo "Failure"
+tail: this file does not exist: No such file or directory
+Failure
+```
+
+We may be thinking that it will be hard to execute complex conditions with only `&&` and `||`, plus produce many extraneous error messages, and we're right. Bash has an entire "if-then" syntax for executing commands only if very specific conditions are met. A bit of a warning: I find the Bash "if" syntax to be even more clunky than other command line constructions. Especially if you know a major programming language, these "if" statements may seem a bit arcane or primitive.
+
+Input
+{: .label .label-green}
+```sh
+$ FILE=names.txt
+$ if [[ -s $FILE ]]
+> then echo "$FILE exists and has content"
+> elif [[ -e $FILE ]]
+> then echo "$FILE exists but is empty"
+> else echo "$FILE does not exist"
+> fi
+```
+
+Output
+{: .label .label-yellow}
+```sh
+names.txt exists and has content
+```
+
+We can try redefining the `$FILE` variable then using up-arrow to get our long if statement again to test this. Try creating an empty file with `touch` or referencing a non-existent file.
+
+Here are the elements of an if condition in order:
+
+1. `if` starts the statement
+1. double or single square brackets `[[ ... ]]` wrap a condition, there is a slight difference between `[[` and `[` but in general double brackets are preferable
+1. there are many flags and comparisons that can be done inside the brackets, which we won't go into here, but running `man [` (note: single bracket) shows you many of the options
+1. `then` prefixes the command to be conditionally run
+1. (optionally) any number of "else if" `elif` conditions and their corresponding `then` commands
+1. (optionally) an `else` fallback which is executed if no other conditions proved true
+1. `fi` finishes the statement
+
+There is much more to "if" statements in terms of what conditions we can use, but the statements are hard to write out line-by-line onto the prompt. They will be more useful after our next section when we learn more about combining many commands into a script.
+
+---
 
 Let's revisit our table of special characters now. The meanings of hashmark `#` and single ampersand `&` are new to us. We won't have time to go into background jobs but we will see `#` when we look at Bash scripting.
 
@@ -366,14 +416,13 @@ You can edit scripts using whatever text editor—think NotePad++, Sublime Text,
 {: .note }
 
 ```sh
-echo $(date) "sorting all text files"
+echo $(date) "sorting all text files in this folder"
 
 for TEXTFILE in $(ls *.txt); do
     echo "Sorting $TEXTFILE..."
     # remember we want to write to a temporary file, not to our input file
     sort $TEXTFILE > tmp
-    mv tmp $TEXTFILE
-    echo "Done."
+    mv tmp $TEXTFILE && echo "Done."
 done
 
 echo "Done sorting all files."
@@ -433,18 +482,18 @@ Whew, we've finally covered the hashbang and making something executable. But wh
 # These two loops are equivalent
 $ NAMES="Eric Adriadne Katharina Dixon"
 $ for NAME in $NAMES
-$ do
-$ echo $NAME
-$ done
+> do
+> echo $NAME
+> done
 $ # translate space-separated text into newline-separated text, "\n" is a newline
 $ echo $NAMES | tr ' ' '\n' > namesfile.txt
 $ for NAME in $(cat namesfile.txt)
-$ do
-$ echo $NAME
-$ done
+> do
+> echo $NAME
+> done
 ```
 
-Note that Bash is rather loose about how you arrange these statements, you can write "do" on its own line, or alongside the first line of the looped operations e.g. `do echo $NAME`. What is nice is that Bash lets you type out loops over multiple lines: normally, when we insert a newline character by pressing <kbd>Enter</kbd> or <kbd>Return</kbd> the command line executes whatever text is the on prompt. But because Bash sees the "for" statement it knows to wait until it sees a corresponding "done" before executing our code.
+Bash is rather loose about how we arrange these statements, we can write "do" on its own line, or alongside the first line of the looped operations e.g. `do echo $NAME`. What is nice is that Bash lets us type out loops over multiple lines: normally, when we insert a newline character by pressing <kbd>Enter</kbd> or <kbd>Return</kbd> the command line executes whatever text is the on prompt. But because Bash sees the "for" statement it knows to wait until it sees a corresponding "done" before executing our code.
 
 Bash also has [`case`](https://tldp.org/LDP/Bash-Beginners-Guide/html/sect_07_03.html) conditions, where you check a series of conditions and can specify a fallback if not are met, and [`while`](https://tldp.org/LDP/Bash-Beginners-Guide/html/sect_09_02.html) loops that execute as long as a condition is true. These are less frequently used (I use them a tiny fraction of the time that I use `if` and `for`) and we won't cover them.
 
