@@ -8,9 +8,11 @@ permalink: /online/
 
 # Participating online
 
-Active participation enlivens the session with other voices and perspectives. We encourage you to engage with instructors and with each other.
+Active participation enlivens the session with other voices and perspectives. I encourage you to engage with me and with each other.
 
-Microphones are muted by default to improve audio quality and recording is disabled to preserve participant privacy.
+Please mute your microphone when you are not speaking to reduce potential audio clutter. I do intend to record this session, with your permission, and post the recording publicly. You can turn off your camera if you do not want your image to appear in the recordings and I can edit out segments by request.
+
+# Zoom
 
 The Zoom toolbar provides several ways to be part of the conversation:
 
@@ -18,11 +20,11 @@ The Zoom toolbar provides several ways to be part of the conversation:
 
 ## Reactions menu
 
-Open the _Reactions_ menu and click an icon to communicate with the instructors.
+Open the _Reactions_ menu and click an icon to communicate with the instructor(s).
 
 ![Reactions menu](/c4l21-learn-to-love-the-command-line/content/zoom-figures/reactions.png)
 
-Use this to **answer yes/no** questions or to **raise your hand** when instructors invite you to ask a question, comment, or share your screen.
+Use this to **answer yes/no** questions or to **raise your hand** when instructor(s) invite you to ask a question, comment, or share your screen.
 
 ## Chat window
 
