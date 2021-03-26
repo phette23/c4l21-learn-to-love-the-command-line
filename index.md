@@ -9,9 +9,6 @@ has_children: true
 
 This workshop is meant to introduce you to the fundamentals of command line interfaces and to convince you that they're worth learning more about.
 
-**Work in progress**. These materials are incomplete and subject to change. If you want to check them out early, that's great! But expect their to be editorial changes and more content available later.
-{: .warn }
-
 ## Workshop Objectives
 
 First, we will review some fundamentals of the command line like the syntax of commands, file system operations, and navigating around.
