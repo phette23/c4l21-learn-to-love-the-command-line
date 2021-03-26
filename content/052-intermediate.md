@@ -25,7 +25,7 @@ Output
 100   137  100   137    0     0    856      0 --:--:-- --:--:-- --:--:--  1412
 ```
 
-You should be able to copy-paste that URL onto your prompt. Note that, on Windows, the <kbd>Control + C</kbd> and <kbd>Control + V</kbd> keyboard shortcuts conflict with special terminal functions. You may need to right-click with your mouse to paste. If `curl` isn't working for you, you can always [download the file](/names.txt) into our workshop folder.
+You should be able to copy-paste that URL onto your prompt. Note that, on Windows, the <kbd>Control + C</kbd> and <kbd>Control + V</kbd> keyboard shortcuts conflict with special terminal functions. You may need to right-click with your mouse to paste. If `curl` isn't working for you, you can always [download the file](/c4l21-learn-to-love-the-command-line/names.txt) into our workshop folder.
 
 ## Text processing greatest hits
 
