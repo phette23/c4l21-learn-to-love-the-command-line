@@ -22,7 +22,7 @@ We will abide by the [Code4Lib Code of Conduct](https://github.com/code4lib/code
 
 > Harassment is understood as any behavior that threatens or demeans another person or group, or produces an unsafe environment. It includes offensive verbal comments or non-verbal expressions related to gender, gender identity, gender expression, sexual orientation, disability, physical appearance, body size, race, age, religious or political beliefs; sexual or discriminatory images in public spaces (including online); deliberate intimidation, stalking, following, harassing photography or recording; sustained disruption of talks or other events, inappropriate physical contact, and unwelcome sexual attention.
 
-You may report Code of Conduct violations by emailing [c4lcommunitysupport@googlegroups.com](mailto:c4lcommunitysupport@googlegroups.com) or pinging `c4lcss` on Slack.
+You may report Code of Conduct violations by emailing [c4lcommunitysupport@googlegroups.com](mailto:c4lcommunitysupport@googlegroups.com) or pinging `@css` or `c4lcss` on Slack.
 
 ## What about _you_?
 
