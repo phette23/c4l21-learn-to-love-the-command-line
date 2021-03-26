@@ -14,7 +14,7 @@ Microphones are muted by default to improve audio quality and recording is disab
 
 The Zoom toolbar provides several ways to be part of the conversation:
 
-<img src="/content/zoom-figures/zoom_toolbar.png" alt="Zoom toolbar" width="510"/>
+<img src="/c4l21-learn-to-love-the-command-line/content/zoom-figures/zoom_toolbar.png" alt="Zoom toolbar" width="510" />
 
 ## Reactions menu
 
