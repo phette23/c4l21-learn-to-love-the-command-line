@@ -20,6 +20,8 @@ A **terminal** or **terminal emulator** is a graphical application wrapped aroun
 
 A **command-line interface** (CLI) could be described as any interface that is primarily text-based. A shell's syntax is also its CLI, a program like `git` has its own particular CLI, gopher servers have their own CLI. CLI is the most broad and generic term used here because it pertains to both the shell and the syntax of various programs we will run via the shell.
 
+A **path** is a text representation of a hierarchical system of folders. On the command line, paths are shown as a forward-slash "/" separated list starting at the very root of our file system. So "/Users/ephetteplace/My Folder" is the path to "My Folder", which is inside its parent folder "ephetteplace", which is in turn inside "Users", which is finally under the root of the entire file system.
+
 What is a **command** exactly? Is it a program? A script? A magic spell? Command is another vague term. We can think of it as one segment, typically a single line of text, to be interpreted and executed by a shell. Commands may contain references to **shell builtins**, which are the shell's fundamental syntax, as well as references to executable programs or scripts, which are additional software installed in the operating system.
 
 ## Fundamentals: Prompt, Syntax, Files, Folders, & Tricks
