@@ -107,7 +107,7 @@ testname
 
 Wait a minute, why didn't that work? Can you see the difference between passing names.txt to `uniq` and `cat`? Any guesses as to why this did not remove all the duplicates?
 
-I find it counterintuitive but what `uniq` actually does is eliminate duplicate _adjacent_ lines. So to find a unique list of values we want to first `sort` and then `uniq` our names file. How do we do this? Using **output redirection** to "pipe" the output of `sort` to the input of `uniq`. Output redirection is one of the most powerful features of the command line:
+I find it counterintuitive but what `uniq` actually does is eliminate duplicate _adjacent_ lines. So to find a unique list of values we want to first `sort` and then `uniq` our names. How do we do this? Using **output redirection** to "pipe" the output of `sort` to the input of `uniq`. Output redirection is one of the most powerful features of the command line:
 
 Input
 {: .label .label-green}
@@ -129,9 +129,9 @@ phette23
 testname
 ```
 
-The vertical bar `|` performs this piping of output to input. Notice how our `uniq` has no arguments that follow it; since piping data between commands is so powerful, most commands are designed to work with it. You might see the terms "standard output", abbreviated "stdout", and "standard input" or "stdin" mentioned in documentation for commands. Those terms refer to these streams of data, coming from and going into a command. So while our `uniq` command did not have a text file to for input it checked stdin and found the names text there.
+The vertical bar `|` performs this piping of output to input. Notice how our `uniq` has no arguments that follow it; since piping data between commands is so powerful, most commands are designed to work with it. We might see the terms "standard output", abbreviated "stdout", and "standard input" or "stdin" mentioned in documentation for commands. Those terms refer to these streams of data, coming from and going into a command. So while our `uniq` command did not have a text file to for input it checked stdin and found the names text there.
 
-There is no non-standard input or output or anything. So why do we use "standard output" and not simply "output"? I don't know ¯\\_(ツ)_/¯
+As far as I know, there is no non-standard input or output or anything else. So why do we use "standard output" and not simply "output"? I don't know ¯\\_(ツ)_/¯
 {: .note }
 
 To demonstrate pipes, let's look at the mirrored commands `head` and `tail` which both take a numeric `-n` argument and return either the first or last N lines:
@@ -183,9 +183,9 @@ Output
 9
 ```
 
-The `wc` command stands for **w**ord **c**ount and the `-l` flag tells it to count the lines of its input. So this triad of commands demonstrates the differences in length between the complete names.txt file, the file without repeated lines, and the file without duplicate non-adjacent lines.
+The `wc` command stands for **w**ord **c**ount and the `-l` flag tells it to count the **l**ines of its input. So this triad of commands demonstrates the differences in length between the complete names.txt file, the file without repeated lines, and the file without duplicate non-adjacent lines.
 
-You can also pass `head` or `tail` a number prefixed with a plus `+` sign to print everything _but_ N minus 1 lines. Why N minus 1 and not simply N? Again, I cannot explain, that's just how it works 🤷🏻. So, combining a few things, here is a deduplicated set of names with no header row:
+We can also pass `head` or `tail` a number prefixed with a plus `+` sign to print everything _but_ N minus 1 lines. Why N minus 1 and not simply N? Again, I cannot explain, that's just how it works 🤷🏻. So, combining a few things, here is a deduplicated set of names with no header row:
 
 Input
 {: .label .label-green}
@@ -260,9 +260,9 @@ $ tail -n 5 names.txt | sed 's|name|NAME|'
 Output
 {: .label .label-yellow}
 ```sh
+madeupNAME
 NAMEyMcNameName
-phette23
-testNAME
+NAMEs with spaces in it
 testNAME
 testNAME
 ```
@@ -289,7 +289,7 @@ names with spaces in it
 Input
 {: .label .label-green}
 ```sh
-$ tail -n 5 names.txt | grep '[0-9]'
+$ head -n 6 names.txt | grep '[0-9]'
 ```
 
 Output
@@ -298,29 +298,50 @@ Output
 phette23
 ```
 
-This uses a less familiar regular expression, it's not search for the literal phrase "[0-9]" but instead for "any character in the range 0 to 9" e.g. any number. So take altogether our command prints any name that is 1) in the last five lines of names.txt (the `tail` part) and 2) has a number in it (the `grep` part).
+This uses a less familiar regular expression, it's not search for the literal phrase "[0-9]" but instead for "any character in the range 0 to 9" e.g. any number. So taken altogether our command prints any name that is 1) in the first six lines of names.txt (the `head` part) and 2) has a number in it (the `grep` part).
 
-If we know regular expressions, `sed` and `grep` unlock an enormous amount of power.
+If we know regular expressions, `sed` and `grep` unlock an enormous amount of power. It's worth noting that many versions of `grep` only known a simplified subset of regular expressions but we can use `egrep` or `grep -E` to access **e**xtended, and more complex, regular expressions.
 
 ## Writing output to a file
 
 All this manipulating text output is well and good but what if we want to write results to a file? It's relatively rare that we want merely to view transformed text, we usually want to save the changes in a file. Luckily, much like the vertical bar `|` pipes one command's output to another's input, we can use the greater than symbol `>` to write output to a file:
 
 ```sh
-$ cat names.txt | sort | uniq > sorted-names.txt
+$ sort names.txt | uniq > sorted-names.txt
 ```
 
-If we write to a file that does not yet exist, it is created. If we write to a pre-existing file, its contents are overwritten.
+If we write to a file that does not yet exist, it is created. **If we write to a pre-existing file, its contents are overwritten.**
 
-It's often useful to not overwrite but to _append_ to a file. For instance, if we are continually monitoring the output of a repeated process, we use two greater thans `>>` to append output to a log file:
+It's often useful to not overwrite but to _append_ onto the end of a file. For instance, if we are continually monitoring the output of a repeated process, we might use two greater than symbols `>>` to append output to a log file:
 
+Input
+{: .label .label-green}
 ```sh
 $ echo "first name" > more-names.txt
-$ cat names.txt | tail -n +2 >> more-names.txt
+$ tail -n +2 names.txt >> more-names.txt
 $ echo "last name" >> more-names.txt
+$ cat more-names.txt
 ```
 
-`echo` is a new command to us—it prints the input string(s) we provide to stdout. Why would that be useful? Mostly so Bash scripts can print information as they execute. Here, we used `echo` to create a new file "more-names.txt" with a single entry, then added all but the first line of our names.txt file to it, and then added one final entry.
+Output
+{: .label .label-yellow}
+```sh
+first name
+ephetteplace
+katharina
+ariadne
+phette23
+ephetteplace
+testname
+madeupname
+nameyMcNameName
+names with spaces in it
+testname
+testname
+last name
+```
+
+`echo` is a new command to us—it prints the input string(s) we provide to stdout. Why is that useful? Mostly so Bash scripts can print information as they execute. Here, we used `echo` to create a new file "more-names.txt" with a single entry, then added all but the first line of our names.txt file to it, and then added one final entry.
 
 Two important warnings: `>` _erases the file's contents_ before our chain of commands even begins. So often if we write to the same file we're using as input, it simply wipes out the file's contents. Notice how `sort more-names.txt > more-names.txt` empties the file.<br>
 Secondly, an analogous problem occurs when appending output to the input file: it creates an infinite loop that builds an enormous text file until we out of disk space. Try to think of data as being processed one line at a time through the entire command pipeline, as opposed to the whole input file passed through step-by-step. If we keep adding to the input before processing is complete, the cycle never ends. Therefore, if we want to modify an existing file, we **write to a new file and then `mv` the new one to overwrite the input file** e.g. `sort names.txt > sorted-names.txt; mv sorted-names.txt names.txt`.
