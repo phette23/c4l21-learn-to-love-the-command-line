@@ -269,7 +269,7 @@ testNAME
 
 `sed` is a **s**tream **ed**itor with enough choices that it is practically a programming language unto itself. For our purposes, we will only learn the **s**ubstitute command. `sed`'s first argument may look strange because of it's special format. The first letter actually stands for the editing operation, in this case `s` for substitution, then we can use any character as a separator to divide up our original string and what we want to replace it with. So `sed 's|name|NAME|'` and `sed 's/name/NAME/'` are identical commands: the first uses a vertical bar `|` as separator while the second uses a forward slash `/`.
 
-The first piece of a `sed` substitution is actually be a **regular expression**. We won't learn more about these today—and it's truly necessary to know much for simple search-and-replace operations—but naturally segue into another popular command, `grep` which searches for regular expressions.
+The first piece of a `sed` substitution is actually be a **regular expression**. We won't learn more about these today—and it's truly not necessary to know much for simple search-and-replace operations—but naturally segue into another popular command, `grep` which searches for regular expressions.
 
 Input
 {: .label .label-green}
