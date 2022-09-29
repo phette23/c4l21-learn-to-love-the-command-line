@@ -71,7 +71,7 @@ Aside: `seq -w` will ensure all integer strings are the same length by padding t
 <details>
 <summary><b>Open here to the answer</b></summary>
 
-This is a philosophical question and thus debatable but <b>a line of text</b> is the best answer for reasons we've repeatedly seen during the intermediate topics: data passed through a command pipeline is processed one line a time; when we iterate over a file it is done one line at a time; and we even write out of our commands one line a a time.
+This is a philosophical question and thus debatable but <b>a line of text</b> is the best answer for reasons we've repeatedly seen during the intermediate topics: data passed through a command pipeline is processed one line a time; when we iterate over a file it is done one line at a time; and we even write out our commands one line a a time.
 
 "A file" might seem like the answer but it is actually possible to perform many complex operations without ever creating or referencing a file, for instance streaming data from a website, through a series of text manipulations, and back out to the web. Most of the time when we were writing to or accessing files it was more a matter of convenience than a necessity.
 </details>
